@@ -1,13 +1,23 @@
-import express from 'express'
-import { environment } from './validation/env.validation'
+import express, { Application } from 'express';
 
-const app = express()
-const port = environment.PORT
+import { DB } from './lib/connect';
+import { environment } from './validation/env.validation';
+import v1Routes from './routes';
 
-app.get('/', (req, res) => {
-    res.send('Chal ja bsdk')
-})
+const app: Application = express();
+const port = environment.PORT;
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`)
-})
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/api/v1/', v1Routes);
+
+const start = async () => {
+  try {
+    await DB();
+    app.listen(port, () => console.log(`Server running on port ${port}`));
+  } catch (err: any) {
+    console.log(err);
+  }
+};
+
+start();

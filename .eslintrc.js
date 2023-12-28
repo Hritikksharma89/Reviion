@@ -1,25 +1,12 @@
 export default {
-    root: true,
-    env: {
-      node: true,
-      es2021: true,
-    },
-    extends: ["standard-with-typescript", "eslint:recommended", "prettier"],
-    overrides: [
+  extends: ['eslint:recommended', 'prettier'],
+
+  rules: {
+    'prettier/prettier': [
+      'error',
       {
-        env: {
-          node: true,
-        },
-        files: [".eslintrc.{js,cjs,json}"],
-        parserOptions: {
-          sourceType: "script",
-        },
+        trailingComma: 'all',
       },
     ],
-    parserOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
-    },
-    rules: {},
-  };
-  
+  },
+};

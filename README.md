@@ -56,8 +56,8 @@ Runs your test suite to ensure code integrity.
 
 Make sure to check and update the configuration files as needed:
 
--   `tsconfig.json`: TypeScript configuration.
--   `package.json`: Update scripts, dependencies, and other project-related details.
+- `tsconfig.json`: TypeScript configuration.
+- `package.json`: Update scripts, dependencies, and other project-related details.
 
 ## Environment Variables
 
