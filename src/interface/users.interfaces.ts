@@ -1,14 +1,16 @@
-import { Document } from 'mongoose';
-
-type TRole = 'USER' | 'ADMIN' | 'MANAGER';
 type TMembership = 'PREMIUM' | 'FREE' | 'ENTERPRISE';
+type TRole = 'USER' | 'ADMIN' | 'MANAGER';
 
-export interface IUser extends Document {
-  id?: number;
+interface IUser {
+  id: string;
   name: string;
   email: string;
-  phone: number;
+  phone: Number;
   emailVerified: boolean;
   membership: TMembership;
   role: TRole;
 }
+ export default IUser
+
+
+ 

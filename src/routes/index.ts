@@ -7,4 +7,7 @@ const v1Routes = Router();
 
 v1Routes.use('/users/', userRoute);
 v1Routes.use('/docs/', docsRoute);
+
+
+
 export default v1Routes;

@@ -1,20 +1,18 @@
 import { Request, Response } from 'express';
 
-import { IUser } from '../../interface/interfaces';
+import IUser from '../../interface/users.interfaces';
 import { Users } from '../../models/model';
 
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await Users.find<IUser[]>();
     if (user.length < 0) {
-      res.status(200).json({ message: 'No users found.', data: user });
+      res.status(200).json({ message: 'No user found', data: user });
     } else {
-      res.status(200).json({ message: 'Users fetch successfully', data: user });
+      res.status(200).json({ message: 'User fetch successfully', data: user });
     }
   } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: 'Internal server error', data: [], error: error?.data?.message });
+    res.status(500).json({ message: 'Something went wrong', data: [], error: error.data.message });
   }
 };
 
@@ -27,12 +25,12 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
     }
 
     if (user) {
-      res.status(200).json({ message: 'User found', data: user });
+      res.status(200).json({ message: 'User id found', data: user });
     } else {
-      res.status(404).json({ message: 'No users found', data: user });
+      res.status(404).json({ message: 'No user found', data: user });
     }
   } catch (error: any) {
-    res.status(500).json({ message: 'Something went wrong', data: {}, error: error?.message });
+    res.status(500).json({ message: 'Something went wrong', data: [], error: error.data.message });
   }
 };
 
@@ -41,7 +39,6 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
     const payload = req.body;
     console.log(payload);
     const user = await Users.create<IUser>(payload);
-
     if (user) {
       res.status(201).json({ message: 'User created successfully', data: user });
     } else {
@@ -54,10 +51,8 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
 
 export const deleteUserById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const _id = req.params.id;
-
+    const _id: string = req.params.id;
     const user = await Users.findByIdAndDelete<IUser>(_id);
-
     if (user) {
       res.status(201).json({ message: 'User deleted successfully', data: user });
     } else {
@@ -74,7 +69,6 @@ export const updateUserById = async (req: Request, res: Response): Promise<void>
     const payload: IUser = req.body;
     console.log(payload);
     const user = await Users.findByIdAndUpdate<IUser>(_id, payload);
-
     if (user) {
       res.status(201).json({ message: 'User updated successfully', data: user });
     } else {

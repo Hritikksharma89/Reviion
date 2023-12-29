@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-import { IUser } from '../interface/interfaces';
-import { userSchema } from '../schemas/schema';
+import IUser from '../interface/users.interfaces';
+import userSchema from '../schemas/schema';
 
 export const Users = mongoose.models.users || mongoose.model<IUser>('users', userSchema);
 
