@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+
 import IUser from '../interface/users.interfaces';
 
 export const userSchema = new Schema<IUser>({
@@ -9,8 +10,3 @@ export const userSchema = new Schema<IUser>({
   membership: { type: String, required: true },
   role: { type: String, required: true },
 });
-
-
-
-
-

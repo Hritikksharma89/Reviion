@@ -14,7 +14,7 @@ const options = {
       },
     ],
   },
-  apis: ['./src/routes/**/*.ts',"./src/schemas/**/*.ts"], // Your TypeScript route files
+  apis: ['./src/routes/**/*.ts', './src/schemas/**/*.ts'], // Your TypeScript route files
 };
 
 export default options;

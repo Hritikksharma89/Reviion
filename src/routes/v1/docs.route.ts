@@ -8,4 +8,4 @@ const docsRoute = Router();
 const specs = swaggerJsdoc(options);
 docsRoute.use('/', swaggerUi.serve, swaggerUi.setup(specs));
 
-export default docsRoute
+export default docsRoute;

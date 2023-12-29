@@ -1,8 +1,8 @@
 import express, { Application } from 'express';
 
 import { DB } from './lib/connect';
-import { environment } from './validation/env.validation';
 import v1Routes from './routes';
+import { environment } from './validation/env.validation';
 
 const app: Application = express();
 const port = environment.PORT;

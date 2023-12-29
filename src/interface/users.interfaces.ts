@@ -10,7 +10,4 @@ interface IUser {
   membership: TMembership;
   role: TRole;
 }
- export default IUser
-
-
- 
+export default IUser;
