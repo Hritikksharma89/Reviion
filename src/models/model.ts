@@ -1,9 +1,15 @@
 import mongoose from 'mongoose';
 
-import IUser from '../interface/users.interfaces';
-import { userSchema } from '../schemas/schema';
+import { IProfile, IUser, IUserOnboarding, IUserSetting } from '../interface/users.interfaces';
+import { onboardingSchema, profileSchema, settingsSchema, userSchema } from '../schemas/schema';
 
 export const Users = mongoose.models.users || mongoose.model<IUser>('users', userSchema);
 
-// learn bout models , schema, DB connection in typescript
-//nodejs crud OP testing  ,jest n all
+export const Profiles =
+  mongoose.models.profiles || mongoose.model<IProfile>('profiles', profileSchema);
+
+export const Settings =
+  mongoose.models.settings || mongoose.model<IUserSetting>('settings', settingsSchema);
+
+export const Onboardings =
+  mongoose.models.onboardings || mongoose.model<IUserOnboarding>('onboardings', onboardingSchema);

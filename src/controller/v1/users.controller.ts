@@ -1,11 +1,14 @@
 import { Request, Response } from 'express';
 
-import IUser from '../../interface/users.interfaces';
+import { IUser } from '../../interface/users.interfaces';
 import { Users } from '../../models/model';
 
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
   try {
-    const user = await Users.find<IUser[]>();
+    const { page = 1, limit = 1 } = req.query;
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const user = await Users.find<IUser[]>().skip(skip).limit(Number(limit)).sort('desc');
     if (user.length < 0) {
       res.status(200).json({ message: 'No user found', data: user });
     } else {
@@ -36,9 +39,7 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
 
 export const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const payload = req.body;
-    console.log(payload);
-    const user = await Users.create<IUser>(payload);
+    const user = await Users.create<IUser>(req.body);
     if (user) {
       res.status(201).json({ message: 'User created successfully', data: user });
     } else {

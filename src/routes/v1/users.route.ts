@@ -6,7 +6,7 @@
  *   name: Users
  *   description: Operations related to users
  */
-import express from 'express';
+import { Router } from 'express';
 
 import {
   createUser,
@@ -16,7 +16,7 @@ import {
   updateUserById,
 } from '../../controller/v1/users.controller';
 
-const userRoute = express.Router();
+const userRoute = Router();
 
 /**
  * @swagger
@@ -95,6 +95,7 @@ userRoute.post('/', createUser);
  *       '204':
  *         description: User deleted successfully
  */
+
 userRoute.delete('/:id', deleteUserById);
 
 /**
@@ -124,6 +125,7 @@ userRoute.delete('/:id', deleteUserById);
  *           application/json:
  *             example: {"message": "Users updated successfully","data": [{"_id": "658c6bb1adfc1925457cec68","name": "Smith hoe","email": "Smith.doe@example.com","phone": 1234567890,"emailVerified": false,"membership": "FREE","role": "ADMIN","__v": 0}]}
  */
+
 userRoute.put('/:id', updateUserById);
 
 export default userRoute;
