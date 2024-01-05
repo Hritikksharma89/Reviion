@@ -1,11 +1,14 @@
-import httpStatus from 'http-status';
+import { NextFunction, Request, Response } from 'express'
 
-import ApiError from './apiError';
-
-export const catchAsync = async (fn: any) => {
-  try {
-    await fn();
-  } catch (error: any) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Something went wrong');
+const catchAsync = (fn: any) => {
+  const middle = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const paramFunc = await fn(req, res, next)
+      return paramFunc
+    } catch (error: any) {
+      next(error)
+    }
   }
-};
+  return middle
+}
+export default catchAsync

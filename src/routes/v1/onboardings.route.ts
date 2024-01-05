@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router } from 'express'
 
 /**
  * @swagger
@@ -12,9 +12,9 @@ import {
   getAllOnboardings,
   getOnboardingById,
   updateOnboardingById,
-} from '../../controller/v1/onboardings.controller';
+} from '../../controller/v1/onboardings.controller'
 
-const onboardingsRoute = Router();
+const onboardingsRoute = Router()
 
 /**
  * @swagger
@@ -31,7 +31,7 @@ const onboardingsRoute = Router();
  *           example: {"message": "Onboardings fetch successfully", "data": [] }
  */
 
-onboardingsRoute.get('/', getAllOnboardings);
+onboardingsRoute.get('/', getAllOnboardings)
 
 /**
  * /api/v1/onboardings/{id}:
@@ -52,7 +52,7 @@ onboardingsRoute.get('/', getAllOnboardings);
  *              example: {}
  */
 
-onboardingsRoute.get('/:id', getOnboardingById);
+onboardingsRoute.get('/:id', getOnboardingById)
 /**
  * @swagger
  * /api/v1/onboardings:
@@ -72,7 +72,7 @@ onboardingsRoute.get('/:id', getOnboardingById);
  *           application/json:
  *             example: { }
  */
-onboardingsRoute.post('/', createOnboarding);
+onboardingsRoute.post('/', createOnboarding)
 
 /**
  * @swagger
@@ -102,7 +102,7 @@ onboardingsRoute.post('/', createOnboarding);
  *             example: {"message": "Onboarding updated successfully","data": []}
  */
 
-onboardingsRoute.put('/:id', updateOnboardingById);
+onboardingsRoute.put('/:id', updateOnboardingById)
 /**
  * @swagger
  * /api/v1/onboardings/{id}:
@@ -120,6 +120,6 @@ onboardingsRoute.put('/:id', updateOnboardingById);
  *       '204':
  *         description: Onboarding deleted successfully
  */
-onboardingsRoute.delete('/:id', deleteOnboardingById);
+onboardingsRoute.delete('/:id', deleteOnboardingById)
 
-export default onboardingsRoute;
+export default onboardingsRoute

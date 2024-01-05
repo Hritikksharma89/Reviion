@@ -6,7 +6,7 @@
  *   name: Users
  *   description: Operations related to users
  */
-import { Router } from 'express';
+import { Router } from 'express'
 
 import {
   createUser,
@@ -14,9 +14,9 @@ import {
   getAllUsers,
   getUserById,
   updateUserById,
-} from '../../controller/v1/users.controller';
+} from '../../controller/v1/users.controller'
 
-const userRoute = Router();
+const userRoute = Router()
 
 /**
  * @swagger
@@ -32,7 +32,7 @@ const userRoute = Router();
  *           application/json:
  *             example: {"message": "Users fetch successfully","data": [{"_id": "658c6bb1adfc1925457cec68","name": "Smith hoe","email": "Smith.doe@example.com","phone": 1234567890,"emailVerified": false,"membership": "FREE","role": "ADMIN","__v": 0}]}
  */
-userRoute.get('/', getAllUsers);
+userRoute.get('/', getAllUsers)
 
 /**
  * @swagger
@@ -55,7 +55,7 @@ userRoute.get('/', getAllUsers);
  *           application/json:
  *             example: { _id: '123', name: 'John Doe', email: 'john@example.com', phone: 1234567890, emailVerified: true, membership: 'Gold', role: 'Admin' }
  */
-userRoute.get('/:id', getUserById);
+userRoute.get('/:id', getUserById)
 
 /**
  * @swagger
@@ -76,7 +76,7 @@ userRoute.get('/:id', getUserById);
  *           application/json:
  *             example: { _id: '123', name: 'John Doe', email: 'john@example.com', phone: 1234567890, emailVerified: true, membership: 'Gold', role: 'Admin' }
  */
-userRoute.post('/', createUser);
+userRoute.post('/', createUser)
 
 /**
  * @swagger
@@ -96,7 +96,7 @@ userRoute.post('/', createUser);
  *         description: User deleted successfully
  */
 
-userRoute.delete('/:id', deleteUserById);
+userRoute.delete('/:id', deleteUserById)
 
 /**
  * @swagger
@@ -126,6 +126,6 @@ userRoute.delete('/:id', deleteUserById);
  *             example: {"message": "Users updated successfully","data": [{"_id": "658c6bb1adfc1925457cec68","name": "Smith hoe","email": "Smith.doe@example.com","phone": 1234567890,"emailVerified": false,"membership": "FREE","role": "ADMIN","__v": 0}]}
  */
 
-userRoute.put('/:id', updateUserById);
+userRoute.put('/:id', updateUserById)
 
-export default userRoute;
+export default userRoute

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router } from 'express'
 
 import {
   createSetting,
@@ -6,9 +6,9 @@ import {
   getAllSetting,
   getSettingById,
   updateSettingById,
-} from '../../controller/v1/settings.controller';
+} from '../../controller/v1/settings.controller'
 
-const settingsRoute = Router();
+const settingsRoute = Router()
 
 /**
  * @swagger
@@ -32,7 +32,7 @@ const settingsRoute = Router();
  *           application/json:
  *             example: {"message": "Settings fetch successfully","data": []}
  */
-settingsRoute.get('/', getAllSetting);
+settingsRoute.get('/', getAllSetting)
 
 /**
  * @swagger
@@ -58,7 +58,7 @@ settingsRoute.get('/', getAllSetting);
  *           application/json:
  *             example: {"message": "Settings fetch successfully","data": []}
  */
-settingsRoute.get('/:id', getSettingById);
+settingsRoute.get('/:id', getSettingById)
 
 /**
  * @swagger
@@ -79,7 +79,7 @@ settingsRoute.get('/:id', getSettingById);
  *       500:
  *         description: Internal server error.
  */
-settingsRoute.post('/', createSetting);
+settingsRoute.post('/', createSetting)
 
 /**
  * @swagger
@@ -111,7 +111,7 @@ settingsRoute.post('/', createSetting);
  *       500:
  *         description: Internal server error.
  */
-settingsRoute.put('/:id', updateSettingById);
+settingsRoute.put('/:id', updateSettingById)
 
 /**
  * @swagger
@@ -134,6 +134,6 @@ settingsRoute.put('/:id', updateSettingById);
  *       500:
  *         description: Internal server error.
  */
-settingsRoute.delete('/:id', deleteSettingById);
+settingsRoute.delete('/:id', deleteSettingById)
 
-export default settingsRoute;
+export default settingsRoute

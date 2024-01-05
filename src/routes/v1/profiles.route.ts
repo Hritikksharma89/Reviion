@@ -1,5 +1,5 @@
 // src/routes/v1/profiles.route.ts
-import { Router } from 'express';
+import { Router } from 'express'
 
 /**
  * @swagger
@@ -13,9 +13,9 @@ import {
   getAllProfiles,
   getProfileById,
   updateProfileById,
-} from '../../controller/v1/profiles.controller';
+} from '../../controller/v1/profiles.controller'
 
-const profilesRoute = Router();
+const profilesRoute = Router()
 
 /**
  * @swagger
@@ -32,7 +32,7 @@ const profilesRoute = Router();
  *              example: {"message":"Profiles fetch successfully", "data": []}
  */
 
-profilesRoute.get('/', getAllProfiles);
+profilesRoute.get('/', getAllProfiles)
 
 /**
  * /api/v1/profiles/{id}:
@@ -54,7 +54,7 @@ profilesRoute.get('/', getAllProfiles);
  *            application/json
  *              example: {}
  */
-profilesRoute.get('/:id', getProfileById);
+profilesRoute.get('/:id', getProfileById)
 
 /**
  * @swagger
@@ -75,7 +75,7 @@ profilesRoute.get('/:id', getProfileById);
  *           application/json:
  *             example: { _id: '123', name: 'John Doe', email: 'john@example.com', phone: 1234567890, emailVerified: true, membership: 'Gold', role: 'Admin' }
  */
-profilesRoute.post('/', createProfile);
+profilesRoute.post('/', createProfile)
 
 /**
  * @swagger
@@ -104,7 +104,7 @@ profilesRoute.post('/', createProfile);
  *           application/json:
  *             example: {"message": "Profiles updated successfully","data": [{"_id": "658c6bb1adfc1925457cec68","name": "Smith hoe","email": "Smith.doe@example.com","phone": 1234567890,"emailVerified": false,"membership": "FREE","role": "ADMIN","__v": 0}]}
  */
-profilesRoute.put('/:id', updateProfileById);
+profilesRoute.put('/:id', updateProfileById)
 
 /**
  * @swagger
@@ -123,6 +123,6 @@ profilesRoute.put('/:id', updateProfileById);
  *       '204':
  *         description: Profile deleted successfully
  */
-profilesRoute.delete('/:id', deleteProfileById);
+profilesRoute.delete('/:id', deleteProfileById)
 
-export default profilesRoute;
+export default profilesRoute
