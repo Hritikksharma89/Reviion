@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 
 import { IUser } from '../../interface/users.interfaces'
-import catchAsync from '../../lib/catchAsync'
 import { Users } from '../../models/model'
 
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
