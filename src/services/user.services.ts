@@ -18,9 +18,11 @@ export const getServiceById = async (_id: ObjectId): Promise<IUser | null> => {
   return user
 }
 
-export const createUserService = async (userBody: NewCreatedUser): Promise<IUser> => {
+export const createUserService = async (
+  userBody: NewCreatedUser,
+): Promise<IUser | { email: boolean }> => {
   if (await Users.findOne({ email: userBody.email })) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken')
+    return { email: false }
   }
   const user = await Users.create<IUser>(userBody)
   return user

@@ -14,7 +14,11 @@ import {
 
 export const createUser = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const user = await createUserService(req.body)
-  res.status(httpStatus.CREATED).json({ message: 'User created successfully', data: user })
+  if (!user.email) {
+    res.status(httpStatus.OK).json({ message: 'Email already taken', data: {} })
+  } else {
+    res.status(httpStatus.CREATED).json({ message: 'User created successfully', data: user })
+  }
 })
 
 export const getUser = catchAsync(async (req: Request, res: Response): Promise<void> => {
