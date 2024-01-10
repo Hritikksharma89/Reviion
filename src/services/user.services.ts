@@ -18,40 +18,28 @@ export const getServiceById = async (_id: ObjectId): Promise<IUser | null> => {
   return user
 }
 
-export const createUserService = async (
-  userBody: NewCreatedUser,
-): Promise<IUser | { email: boolean }> => {
-  if (await Users.findOne({ email: userBody.email })) {
-    return { email: false }
-  }
+export const createUserService = async (userBody: NewCreatedUser) => {
   const user = await Users.create<IUser>(userBody)
   return user
 }
 
 export const deleteUserByIdService = async (_id: object) => {
   const user = await Users.findByIdAndDelete<IUser>(_id)
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Not found')
-  }
   return user
 }
 
 export const updateUserByIdService = async (_id: ObjectId, updateBody: UpdateUserBody) => {
-  const user = await Users.findById<IUser>(_id)
-  if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
-
-  if (updateBody.email && (await Users.findOne({ email: updateBody.email }))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken')
-  }
   const updatedUser = await Users.findByIdAndUpdate<IUser>(_id, updateBody)
   return updatedUser
 }
 
-export const registerUser = async (user: IUser): Promise<IUser> => {
-  if (await Users.findOne({ email: user.email })) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken')
-  }
-  return Users.create(user)
+export const registerUser = async (userBody: IUser): Promise<IUser> => {
+  const user = await Users.create(userBody)
+  return user
+}
+export const getUserByEmail = async (email: string): Promise<IUser> => {
+  const user = await Users.findOne({ email })
+  return user
 }
 
 export const loginUserWithEmailAndPassword = async (

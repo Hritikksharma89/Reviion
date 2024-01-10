@@ -1,7 +1,6 @@
 import { type NextFunction, type Request, type Response, request } from 'express'
+import httpStatus from 'http-status'
 import { z } from 'zod'
-
-import pick from '../utils/pick'
 
 const validate =
   (schema: Record<string, any>) => async (req: Request, res: Response, next: NextFunction) => {
@@ -10,9 +9,13 @@ const validate =
       next()
     } catch (error) {
       if (error instanceof z.ZodError) {
-        res.send({ 'Validation error': error.errors })
+        res
+          .status(httpStatus.NON_AUTHORITATIVE_INFORMATION)
+          .send({ message: 'Validation error', data: [], error: error.errors })
       } else {
-        res.send({ 'Unexpected error:': error })
+        res
+          .status(httpStatus.INTERNAL_SERVER_ERROR)
+          .send({ message: 'Unexpected error', data: [], error: error })
       }
     }
   }
