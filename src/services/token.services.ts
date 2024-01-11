@@ -1,13 +1,14 @@
 import httpStatus from 'http-status'
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import moment, { Moment } from 'moment'
 import type { ObjectId } from 'mongoose'
 
 import { tokenTypes } from '../constant/token.constant'
-import { AccessAndRefreshTokens, ITokenDoc } from '../interface/token.interface'
+import { AccessAndRefreshTokens, IToken, ITokenDoc } from '../interface/token.interface'
 import { IUser } from '../interface/users.interfaces'
 import ApiError from '../lib/apiError'
 import { Token, Users } from '../models/model'
+import { tokenExpireDays, tokenExpireMin } from '../utils/tokenExpireTime'
 import { environment } from '../validation/env.validation'
 
 export const generateToken = (
@@ -42,50 +43,66 @@ export const saveToken = async (
   return tokenDoc
 }
 
-export const generateAuthTokens = async (user: IUser): Promise<AccessAndRefreshTokens> => {
-  const accessTokenExpires = moment().add(environment.JWT_ACCESS_EXPIRATION_MINUTES, 'minutes')
-  const accessToken = generateToken(user.id, accessTokenExpires, tokenTypes.ACCESS)
-
-  const refreshTokenExpires = moment().add(environment.JWT_REFRESH_EXPIRATION_DAYS, 'days')
-  const refreshToken = generateToken(user.id, refreshTokenExpires, tokenTypes.REFRESH)
-  await saveToken(refreshToken, user.id, refreshTokenExpires, tokenTypes.REFRESH)
+export const generateAuthTokens = async (id: ObjectId): Promise<AccessAndRefreshTokens> => {
+  const accessToken = generateToken(id, tokenExpireMin, tokenTypes.ACCESS)
+  const refreshToken = generateToken(id, tokenExpireDays, tokenTypes.REFRESH)
+  await saveToken(refreshToken, id, tokenExpireDays, tokenTypes.REFRESH)
 
   return {
     access: {
       token: accessToken,
-      expires: accessTokenExpires.toDate(),
+      expires: tokenExpireMin.toDate(),
     },
     refresh: {
       token: refreshToken,
-      expires: refreshTokenExpires.toDate(),
+      expires: tokenExpireDays.toDate(),
     },
   }
 }
 
-export const verifyToken = async (token: string, type: string): Promise<ITokenDoc> => {
-  const payload = jwt.verify(token, environment.JWT_SECRET)
-  if (typeof payload.sub !== 'string') {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'bad user')
-  }
+export const findTokenById = async (id: ObjectId, token: string, type: string) => {
   const tokenDoc = await Token.findOne({
     token,
     type,
-    user: payload.sub,
+    user: id,
     blacklisted: false,
   })
-  if (!tokenDoc) {
-    throw new Error('Token not found')
-  }
   return tokenDoc
 }
 
-export const generateResetPasswordToken = async (email: string): Promise<string> => {
-  const user = await Users.findOne({ email })
-  if (!user) {
-    throw new ApiError(httpStatus.NO_CONTENT, '')
-  }
-  const expires = moment().add(environment.JWT_RESET_PASSWORD_EXPIRATION_MINUTES, 'minutes')
-  const resetPasswordToken = generateToken(user.id, expires, tokenTypes.RESET_PASSWORD)
-  await saveToken(resetPasswordToken, user.id, expires, tokenTypes.RESET_PASSWORD)
+export const verifyToken = async (token: string, type: string): Promise<string | JwtPayload> => {
+  return jwt.verify(token, environment.JWT_SECRET)
+}
+
+export const generateResetPasswordToken = async (id: ObjectId): Promise<string> => {
+  const resetPasswordToken = generateToken(id, tokenExpireMin, tokenTypes.RESET_PASSWORD)
+  await saveToken(resetPasswordToken, id, tokenExpireMin, tokenTypes.RESET_PASSWORD)
   return resetPasswordToken
+}
+export const deleteRefreshToken = async (refreshTokenDoc: IToken) => {
+  const deleteToken = await Token.deleteOne(refreshTokenDoc)
+  return deleteToken
+}
+
+export const getRefreshTokenDoc = async (refreshToken: string): Promise<ITokenDoc> => {
+  const refreshTokenDoc = await Token.findOne({
+    token: refreshToken,
+    type: tokenTypes.REFRESH,
+    blacklisted: false,
+  })
+  return refreshTokenDoc
+}
+
+export const resetUserPassword = async (userId: any, newPassword: string) => {
+  const user = await Users.findByIdAndUpdate(userId, { password: newPassword })
+  const token = await Token.deleteMany({ user: userId, type: tokenTypes.RESET_PASSWORD })
+  return { user, token }
+}
+
+export const refreshAuth = async (refreshTokenDoc: IToken) => {
+
+  const token = await deleteRefreshToken(refreshTokenDoc)
+    const tokens = await generateAuthTokens(token.user as ObjectId)
+    return { tokens }
+
 }
