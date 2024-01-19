@@ -1,0 +1,7 @@
+{
+  "cSpell.words": ["camelcase", "openapi"],
+  // "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  }
+}

@@ -1,24 +1,23 @@
+import { createNewUser, deleteUser, getUserById, getUsers, updateUser } from '@/controller/users.controller'
+import { USER_CREATE, USER_DELETE, USER_GET, USER_GET_ALL, USER_UPDATE } from '@/constant/api.constant'
+import RequestValidate from '@/middleware/requestValidation';
+import TokenValidation from '@/middleware/tokenValidation';
+import UserValidation from '@/validation/user.validation';
 import { Router } from 'express'
 
-import {
-  createUser,
-  deleteUser,
-  getUser,
-  getUsers,
-  updateUser,
-} from '../../controller/v1/users.controller'
-import validate from '../../middleware/validate'
-import { createUserValidation, updateUserValidation } from '../../validation/user.validation'
+const userRoute = Router();
 
-const userRoute = Router()
+userRoute.get(USER_GET_ALL , TokenValidation,RequestValidate(UserValidation().getUsers()), getUsers);
 
-userRoute.get('/', getUsers)
-userRoute.get('/:id', getUser)
-userRoute.post('/', validate(createUserValidation), createUser)
-userRoute.delete('/:id', deleteUser)
-userRoute.put('/:id', validate(updateUserValidation), updateUser)
+userRoute.get(USER_GET, TokenValidation, RequestValidate(UserValidation().getUserById()), getUserById);
 
-export default userRoute
+userRoute.post(USER_CREATE, TokenValidation, RequestValidate(UserValidation().createNewUser), createNewUser);
+
+userRoute.delete(USER_DELETE, TokenValidation, RequestValidate(UserValidation().deleteUser), deleteUser);
+
+userRoute.put(USER_UPDATE, TokenValidation, RequestValidate(UserValidation().updateUser), updateUser);
+
+export default userRoute;
 
 /**
  * @swagger

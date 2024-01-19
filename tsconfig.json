@@ -7,8 +7,27 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/constant/*": ["src/constant/*"],
+      "@/controller/*": ["src/controller/*"],
+      "@/config/*": ["src/config/*"],
+      "@/factory/*": ["src/factory/*"],
+      "@/services/*": ["src/services/*"],
+      "@/database/*": ["src/database/*"],
+      "@/interface/*": ["src/interface/*"],
+      "@/authentication/*": ["src/authentication/*"],
+      "@/middleware/*": ["src/middleware/*"],
+      "@/models/*": ["src/models/*"],
+      "@/routes/*": ["src/routes/*"],
+      "@/schemas/*": ["src/schemas/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/validation/*": ["src/validation/*"],
+    },
   },
+
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

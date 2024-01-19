@@ -1,0 +1,36 @@
+// {
+//   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended-type-checked"],
+//   "plugins": ["@typescript-eslint", "perfectionist"],
+//   "parser": "@typescript-eslint/parser",
+//   "parserOptions": {
+//     "project": "./tsconfig.eslint.json"
+//   },
+//   "root": true,
+//   "rules": {
+//     "no-duplicate-imports": "error",
+//     "no-dupe-keys": "error",
+//     "camelcase": "error",
+//     "no-inline-comments": "error",   
+//     "dot-notation": "error",
+//     "max-lines": ["error", 100],
+//     "max-depth": ["error", 4],
+//     "no-else-return": "error",
+//     "capitalized-comments": ["error"],
+//     "prefer-arrow-callback": "error",
+//     "perfectionist/sort-interfaces": "error",
+//     "no-console": "error",
+//     "no-irregular-whitespace": "error",
+//     "no-empty-function": "error",
+//     "line-comment-position": ["error", { "position": "above" }],
+//     "prefer-destructuring": [
+//       "error",
+//       {
+//         "array": true,
+//         "object": true
+//       },
+//       {
+//         "enforceForRenamedProperties": false
+//       }
+//     ]
+//   }
+// }

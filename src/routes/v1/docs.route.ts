@@ -1,11 +1,9 @@
 import { Router } from 'express'
-import swaggerJsdoc from 'swagger-jsdoc'
-import swaggerUi from 'swagger-ui-express'
+import { docsServe, docsSetup } from '@/controller/docs.controller'
+import { DOCS } from '@/constant/api.constant'
 
-import options from '../../lib/docs.options'
+const docsRoute = Router();
 
-const docsRoute = Router()
-const specs = swaggerJsdoc(options)
-docsRoute.use('/', swaggerUi.serve, swaggerUi.setup(specs))
+docsRoute.use(DOCS, docsServe, docsSetup);
 
-export default docsRoute
+export default docsRoute;

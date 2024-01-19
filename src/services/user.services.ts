@@ -1,84 +1,65 @@
-import type { ObjectId } from 'mongoose'
+import type { NewCreatedUser, UpdateUserBody } from '@/interface/users.interfaces'
 
-import type { IUser, NewCreatedUser, UpdateUserBody } from '../interface/users.interfaces'
-import { Users } from '../models/model'
-
-/**
- * Get all users with pagination support.
- * @param page - Page number.
- * @param limit - Number of items per page.
- * @returns List of users.
- */
-export const getAllUsers = async (page?: string, limit?: string): Promise<IUser[]> => {
-  const skip = (Number(page) - 1) * Number(limit)
-  const users = await Users.find().skip(skip).limit(Number(limit)).sort({ _id: -1 }) // Use { _id: -1 } for descending order
-  return users
-}
+import Factory from '@/factory/factory'
+import { Users } from '@/models/model'
 
 /**
- * Get a user by their ID.
- * @param _id - User ID.
- * @returns The user with the specified ID or null if not found.
+ * Gets users with optional pagination.
+ *
+ * @param page - Page number for pagination
+ * @param limit - Number of users per page
+ * @returns Promise resolving to array of user documents
  */
-export const getUserById = async (_id: ObjectId): Promise<IUser | null> => {
-  const user = await Users.findById(_id)
-  return user
-}
+export const GetUsers = async (page?: string, limit?: string) => Factory(Users).find(page, limit)
 
 /**
- * Create a new user.
- * @param userBody - User details to create.
- * @returns The created user.
+ * Gets a user by ID.
+ *
+ * @param id - The ID of the user to find.
+ * @returns Promise resolving to the found user document.
  */
-export const createUser = async (userBody: NewCreatedUser): Promise<IUser> => {
-  const user = await Users.create(userBody)
-  return user
-}
+export const GetUserById = async (id: string) => Factory(Users).findById(id)
 
 /**
- * Delete a user by their ID.
- * @param _id - User ID to delete.
- * @returns The deleted user.
+ * Creates a new user with the provided user body.
  */
-export const deleteUserById = async (_id: ObjectId): Promise<IUser> => {
-  const user = await Users.findByIdAndDelete(_id)
-  return user
-}
+export const CreateUser = async (userBody: NewCreatedUser) => Factory(Users).create(userBody)
 
 /**
- * Update a user by their ID.
- * @param _id - User ID to update.
- * @param updateBody - New user details.
- * @returns The updated user.
+ * Deletes a user by ID.
+ *
+ * @param id - The ID of the user to delete.
  */
-export const updateUserById = async (
-  _id: ObjectId,
-  updateBody: UpdateUserBody,
-): Promise<IUser | null> => {
-  const user = await Users.findByIdAndUpdate(_id, updateBody, { new: true }) // Use { new: true } to return the updated document
-  return user
-}
+export const DeleteUserById = async (id: string) => Factory(Users).findByIdAndDelete(id)
 
 /**
- * Get a user by their email address.
- * @param email - User email address.
- * @returns The user with the specified email.
+ * Updates a user by ID with the provided update body.
+ *
+ * @param id - The ID of the user to update
+ * @param payload - The update body containing the fields to update
+ * @returns The updated user document
  */
-export const getUserByEmail = async (email: string): Promise<IUser | null> => {
-  const user = await Users.findOne({ email })
-  return user
-}
+export const UpdateUserById = async (id: string, payload: UpdateUserBody) =>
+  Factory(Users).findByIdAndUpdate(payload, id, { new: true })
 
 /**
- * Get a user by their email address and password.
- * @param email - User email address.
- * @param password - User password.
- * @returns The user with the specified email and password combination.
+ * Gets a user by a provided filter criteria.
+ *
+ * @param payload - The filter criteria to find the user by.
  */
-export const getUserByEmailAndPassword = async (
-  email: string,
-  password: string,
-): Promise<IUser | null> => {
-  const user = await Users.findOne({ email, password })
-  return user
-}
+export const GetUser = async (payload: any) => Factory(Users).findOne(payload)
+
+/**
+ * Gets a user by their email address.
+ *
+ * @param email - The email address of the user to find.
+ * @returns Promise resolving to the found user document.
+ */
+export const GetUserByEmail = async (email: string) => Factory(Users).findOne({ email })
+
+/**
+ * Gets a user by their email address and password.
+ *
+ * @param payload - Filter criteria containing email and password to find the user by.
+ */
+export const GetUserByEmailAndPassword = async (payload: any) => Factory(Users).findOne(payload)

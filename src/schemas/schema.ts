@@ -1,50 +1,55 @@
 import mongoose, { Schema } from 'mongoose'
+import { ITokenDoc, ITokenModel } from '@/interface/token.interface'
+import { tokenTypes } from '@/constant/token.constant'
+import { IUser } from '@/interface/users.interfaces'
 
-import { tokenTypes } from '../constant/token.constant'
-import { ITokenDoc, ITokenModel } from '../interface/token.interface'
-import { IUser } from '../interface/users.interfaces'
-
+/**
+ * Defines the Mongoose schema for the User model.
+ */
 export const userSchema = new Schema<IUser>({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  phone: { type: Number },
-  emailVerified: { type: Boolean, default: false },
-  membership: { type: String, default: 'FREE' },
-  role: { type: String, default: 'USER' },
+  email: { required: true, type: String },
+  emailVerified: { default: false, type: Boolean },
+  membership: { default: 'FREE', type: String },
+  name: { required: true, type: String },
   password: {
-    type: String,
-    required: true,
     minlength: 8,
+    required: true,
+    type: String,
   },
-})
+  phone: { type: Number },
+  role: { default: 'USER', type: String },
+});
 
+/**
+ * Defines the Mongoose schema for the Token model.
+ */
 export const tokenSchema = new mongoose.Schema<ITokenDoc, ITokenModel>(
   {
-    token: {
-      type: String,
-      required: true,
-      index: true,
-    },
-    user: {
-      type: String,
-      ref: 'User',
-      required: true,
-    },
-    type: {
-      type: String,
-      enum: [tokenTypes.REFRESH, tokenTypes.RESET_PASSWORD, tokenTypes.VERIFY_EMAIL],
-      required: true,
+    blacklisted: {
+      default: false,
+      type: Boolean,
     },
     expires: {
-      type: Date,
       required: true,
+      type: Date,
     },
-    blacklisted: {
-      type: Boolean,
-      default: false,
+    token: {
+      index: true,
+      required: true,
+      type: String,
+    },
+    type: {
+      enum: [tokenTypes.REFRESH, tokenTypes.RESET_PASSWORD, tokenTypes.VERIFY_EMAIL],
+      required: true,
+      type: String,
+    },
+    user: {
+      ref: 'User',
+      required: true,
+      type: String,
     },
   },
   {
     timestamps: true,
   },
-)
+);

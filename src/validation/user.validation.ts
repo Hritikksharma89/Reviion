@@ -1,17 +1,59 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
-export const createUserValidation = z.object({
-  name: z.string(),
-  email: z.string(),
-  password: z.string().min(8),
-})
+/**
+ * Defines User validation schemas.
+ */
+const UserValidation = () => ({
+  createNewUser: () => ({
+    body: z.object({
+      email: z.string(),
+      emailVerified: z.boolean().optional(),
+      membership: z.string().optional(),
+      name: z.string().optional(),
+      password: z.string().min(8).optional(),
+      phone: z.number().optional(),
+      role: z.string().optional(),
+    }),
+    params: {},
+    query: {},
+  }),
+  deleteUser: () => ({
+    body: {},
+    params: z.object({
+      id: z.string().optional(),
+    }),
+    query: {},
+  }),
+  getUserById: () => ({
+    body: {},
+    params: z.object({
+      id: z.string().optional(),
+    }),
+    query: {},
+  }),
+  getUsers: () => ({
+    body: {},
+    params: {},
+    query: z.object({
+      limit: z.string().optional(),
+      page: z.string().optional(),
+    }),
+  }),
+  updateUser: () => ({
+    body: z.object({
+      email: z.string(),
+      emailVerified: z.boolean().optional(),
+      membership: z.string().optional(),
+      name: z.string().optional(),
+      password: z.string().min(8).optional(),
+      phone: z.number().optional(),
+      role: z.string().optional(),
+    }),
+    params: z.object({
+      id: z.string().optional(),
+    }),
+    query: {},
+  }),
+});
 
-export const updateUserValidation = z.object({
-  name: z.string().optional(),
-  email: z.string(),
-  phone: z.number().optional(),
-  emailVerified: z.boolean().optional(),
-  membership: z.string().optional(),
-  role: z.string().optional(),
-  password: z.string().min(8).optional(),
-})
+export default UserValidation;

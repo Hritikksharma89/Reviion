@@ -1,19 +1,19 @@
-import { Document, ObjectId } from 'mongoose'
+import { Document } from 'mongoose'
 
-export type TMembership = 'PREMIUM' | 'FREE' | 'ENTERPRISE'
-export type TRole = 'USER' | 'ADMIN' | 'MANAGER'
+export type TMembership = 'ENTERPRISE' | 'PREMIUM' | 'FREE'
+export type TRole = 'MANAGER' | 'ADMIN' | 'USER'
 
 export interface IUser extends Document {
-  id: ObjectId
-  name: string
   email: string
-  phone: Number
   emailVerified: boolean
+  id: string
   membership: TMembership
-  role: TRole
+  name: string
   password: string
+  phone: number
+  role: TRole
 }
 
 export type UpdateUserBody = Partial<IUser>
 
-export type NewCreatedUser = Omit<IUser, 'emailVerified'>
+export type NewCreatedUser = Omit<UpdateUserBody, 'emailVerified'>

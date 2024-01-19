@@ -2,11 +2,11 @@ import { JwtPayload } from 'jsonwebtoken'
 import { Document, Model } from 'mongoose'
 
 export interface IToken {
-  token: string
-  user: string
-  type: string
-  expires: Date
   blacklisted: boolean
+  expires: Date
+  token: string
+  type: string
+  user: string
 }
 
 export type NewToken = Omit<IToken, 'blacklisted'>
@@ -16,15 +16,15 @@ export interface ITokenDoc extends IToken, Document {}
 export interface ITokenModel extends Model<ITokenDoc> {}
 
 export interface IPayload extends JwtPayload {
-  sub: string
-  iat: number
   exp: number
+  iat: number
+  sub: string
   type: string
 }
 
 export interface TokenPayload {
-  token: string
   expires: Date
+  token: string
 }
 
 export interface AccessAndRefreshTokens {
