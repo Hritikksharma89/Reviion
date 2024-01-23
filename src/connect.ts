@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { environment } from '../validation/env.validation';
+import { environment } from './env';
 
 mongoose.Promise = global.Promise;
 

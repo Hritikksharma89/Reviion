@@ -1,15 +1,19 @@
 import express, { Application } from 'express';
 
-import { DB } from './lib/connect';
-import v1Routes from './routes';
-import { environment } from './validation/env.validation';
+import { DB } from './connect';
+import { environment } from './env';
+import docsRoute from './modules/docs/docs.route';
+import userRoute from './modules/users/user.route';
 
 const app: Application = express();
 const port = environment.PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/v1/', v1Routes);
+
+
+app.use('/users/', userRoute);
+app.use('/docs/', docsRoute);
 
 const start = async () => {
   try {

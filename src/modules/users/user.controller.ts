@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
+import { IUser } from './user.interface';
+import { Users } from './user.model';
 
-import { IUser } from '../../interface/users.interfaces';
-import { Users } from '../../models/model';
+
 
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
   try {
