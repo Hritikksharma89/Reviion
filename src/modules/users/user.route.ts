@@ -2,19 +2,15 @@
 import { Router } from 'express';
 
 import {
-  createUser,
-  deleteUserById,
-  getAllUsers,
-  getUserById,
-  updateUserById,
+  CreateUser,DeleteUserById,GetUserById,UpdateUserById,getUsers
 } from './user.controller';
 
 const userRoute = Router();
 
-userRoute.get('/', getAllUsers);
-userRoute.get('/:id', getUserById);
-userRoute.post('/', createUser);
-userRoute.delete('/:id', deleteUserById);
-userRoute.put('/:id', updateUserById);
+userRoute.get('/', getUsers);
+userRoute.get('/:id', GetUserById);
+userRoute.post('/', CreateUser);
+userRoute.delete('/:id', DeleteUserById);
+userRoute.put('/:id', UpdateUserById);
 
 export default userRoute;
