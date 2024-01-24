@@ -1,12 +1,12 @@
-import mongoose, { Schema } from 'mongoose'
+import { Schema } from 'mongoose'
 import { ITokenDoc, ITokenModel } from '@/interface/token.interface'
 import { tokenTypes } from '@/constant/token.constant'
-import { IUser } from '@/interface/users.interfaces'
+import { IUserDoc, IUserModel } from '@/interface/users.interfaces'
 
 /**
  * Defines the Mongoose schema for the User model.
  */
-export const userSchema = new Schema<IUser>({
+export const userSchema = new Schema<IUserDoc, IUserModel>({
   email: { required: true, type: String },
   emailVerified: { default: false, type: Boolean },
   membership: { default: 'FREE', type: String },
@@ -18,12 +18,12 @@ export const userSchema = new Schema<IUser>({
   },
   phone: { type: Number },
   role: { default: 'USER', type: String },
-});
+})
 
 /**
  * Defines the Mongoose schema for the Token model.
  */
-export const tokenSchema = new mongoose.Schema<ITokenDoc, ITokenModel>(
+export const tokenSchema = new Schema<ITokenDoc, ITokenModel>(
   {
     blacklisted: {
       default: false,
@@ -52,4 +52,4 @@ export const tokenSchema = new mongoose.Schema<ITokenDoc, ITokenModel>(
   {
     timestamps: true,
   },
-);
+)

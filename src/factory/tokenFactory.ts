@@ -43,10 +43,31 @@ const REFRESH_EXPIRATION: string = environment.JWT_REFRESH_EXPIRATION_DAYS
  * It contains methods for generating and verifying JWT tokens
  * with different expiration times.
  */
+ 
 const TokenFactory = (): TokenFactory => ({
+  /**
+   * The accessExpire sets the expiration for access tokens.
+   * It is calculated by adding the ACCESS_EXPIRATION duration (in minutes)
+   * to the current moment.
+   */
   accessExpire: moment().add(ACCESS_EXPIRATION, 'minutes'),
+  /**
+   * The generate creates a signed JWT token using the provided payload.
+   * It signs the token using the application secret and returns
+   * the generated token string.
+   */
   generate: (id, role, expires, type) => jwt.sign(payload(id, role, expires, type), SECRET),
+  /**
+   * The refreshExpire sets the expiration for refresh tokens.
+   * It is calculated by adding the REFRESH_EXPIRATION duration (in days)
+   * to the current moment.
+   */
   refreshExpire: moment().add(REFRESH_EXPIRATION, 'days'),
+  /**
+   * Verifies the provided JWT token using the secret from the environment.
+   * Returns the decoded token payload if valid.
+   * Throws an error if the token is invalid.
+   */
   verify: (token) => jwt.verify(token, SECRET) as TokenPayload,
 })
 

@@ -6,12 +6,11 @@ mongoose.Promise = global.Promise
 /**
  * Connects to the MongoDB database.
  */
-export const databaseConnection = async () => {
+export const databaseConnection = async (): Promise<string> => {
   try {
     await mongoose.connect(environment.DATABASE_URL)
-    console.log('Connected to MongoDB')
+    return 'Connected to MongoDB'
   } catch (error) {
-    console.log('Error connecting to MongoDB: Check Database Url')
-    throw new Error('Connection error')
+    return 'Error connecting to MongoDB: Check Database Url'
   }
 }

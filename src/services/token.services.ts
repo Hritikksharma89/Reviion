@@ -21,13 +21,14 @@ export const saveToken = async (
   expires: Moment,
   type: string,
   blacklisted: boolean = false,
-): Promise<ITokenDoc> => Factory(Token).create({
-  blacklisted,
-  expires: expires.toDate(),
-  token,
-  type,
-  user: id,
-});
+) =>
+  Factory(Token).create({
+    blacklisted,
+    expires: expires.toDate(),
+    token,
+    type,
+    user: id,
+  })
 
 /**
  * Generates new access and refresh tokens for a user.
@@ -36,9 +37,14 @@ export const saveToken = async (
  * @param role - The role of the user
  * @returns Promise resolving to an object containing the new access and refresh tokens
  */
-export const generateAuthTokens = async (id: string, role: string): Promise<AccessAndRefreshTokens> => {
-  const refreshToken = TokenFactory().generate(id, role, TokenFactory().refreshExpire, tokenTypes.REFRESH);
-  await saveToken(refreshToken, id, TokenFactory().refreshExpire, tokenTypes.REFRESH);
+export const generateAuthTokens = async (id: string, role: string) => {
+  const refreshToken = TokenFactory().generate(
+    id,
+    role,
+    TokenFactory().refreshExpire,
+    tokenTypes.REFRESH,
+  )
+  await saveToken(refreshToken, id, TokenFactory().refreshExpire, tokenTypes.REFRESH)
 
   return {
     access: {
@@ -49,8 +55,8 @@ export const generateAuthTokens = async (id: string, role: string): Promise<Acce
       expires: TokenFactory().refreshExpire.toDate(),
       token: refreshToken,
     },
-  };
-};
+  }
+}
 
 /**
  * Finds a token document by ID and token string.
@@ -59,12 +65,13 @@ export const generateAuthTokens = async (id: string, role: string): Promise<Acce
  * @param token - The token string to search for
  * @param type - The type of token
  */
-export const findTokenById = async (id: string, token: string, type: string) => Factory(Token).findOne({
-  blacklisted: false,
-  token,
-  type,
-  user: id,
-});
+export const findTokenById = async (id: string, token: string, type: string) =>
+  Factory(Token).findOne({
+    blacklisted: false,
+    token,
+    type,
+    user: id,
+  })
 
 /**
  * Verifies a JWT token by decoding it and returning the payload.
@@ -72,32 +79,39 @@ export const findTokenById = async (id: string, token: string, type: string) => 
  * @param token - The JWT token to verify
  * @returns The decoded token payload if valid, otherwise throws an error
  */
-export const verifyToken = (token: string) => TokenFactory().verify(token.split(' ')[1]);
+export const verifyToken = (token: string) => TokenFactory().verify(token.split(' ')[1])
 
 export const generateResetPasswordToken = async (id: string, role: string) => {
-  const resetPasswordToken = TokenFactory().generate(id, role, TokenFactory().accessExpire, tokenTypes.RESET_PASSWORD);
-  await saveToken(resetPasswordToken, id, TokenFactory().accessExpire, tokenTypes.RESET_PASSWORD);
-  return resetPasswordToken;
-};
+  const resetPasswordToken = TokenFactory().generate(
+    id,
+    role,
+    TokenFactory().accessExpire,
+    tokenTypes.RESET_PASSWORD,
+  )
+  await saveToken(resetPasswordToken, id, TokenFactory().accessExpire, tokenTypes.RESET_PASSWORD)
+  return resetPasswordToken
+}
 
-export const deleteRefreshToken = async (refreshTokenDoc: IToken) => Factory(Token).deleteOne(refreshTokenDoc);
+export const deleteRefreshToken = async (refreshTokenDoc: IToken) =>
+  Factory(Token).deleteOne(refreshTokenDoc)
 
-export const getRefreshTokenDoc = async (refreshToken: string): Promise<ITokenDoc> => Factory(Token).findOne({
-  blacklisted: false,
-  token: refreshToken,
-  type: tokenTypes.REFRESH,
-});
+export const getRefreshTokenDoc = async (refreshToken: string) =>
+  Factory(Token).findOne({
+    blacklisted: false,
+    token: refreshToken,
+    type: tokenTypes.REFRESH,
+  })
 
-export const resetUserPassword = async (id: any, newPassword: string) => ({
+export const resetUserPassword = async (id: string, newPassword: string) => ({
   token: await Factory(Token).deleteMany({
     type: tokenTypes.RESET_PASSWORD,
     user: id,
   }),
   user: await Factory(Users).findByIdAndUpdate({ password: newPassword }, id),
-});
+})
 
 export const refreshAuth = async (refreshTokenDoc: IToken) => {
-  const token = await deleteRefreshToken(refreshTokenDoc);
-  const tokens = await generateAuthTokens(token.user, token.role);
-  return { tokens };
-};
+  const token = await deleteRefreshToken(refreshTokenDoc)
+  const tokens = await generateAuthTokens(token.user, token.role)
+  return { tokens }
+}

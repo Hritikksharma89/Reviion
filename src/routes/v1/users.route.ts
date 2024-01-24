@@ -7,7 +7,7 @@ import { Router } from 'express'
 
 const userRoute = Router();
 
-userRoute.get(USER_GET_ALL , TokenValidation,RequestValidate(UserValidation().getUsers()), getUsers);
+userRoute.get(USER_GET_ALL , RequestValidate(UserValidation().getUsers()), getUsers);
 
 userRoute.get(USER_GET, TokenValidation, RequestValidate(UserValidation().getUserById()), getUserById);
 

@@ -5,7 +5,7 @@ import ResponseFactory from './responseFactory'
 
 // Define an interface for the ErrorFactory function
 interface ErrorFactory {
-  (error: any, res: Response): void
+  (error: Error | ZodError, res: Response): void
 }
 
 const err = {
