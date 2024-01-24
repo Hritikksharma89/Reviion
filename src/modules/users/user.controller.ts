@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 
 import tryCatch from '../../trycatch';
 import { createUser, deleteUserById, getAllUsers, getUserById, updateUserById } from './user.services';
+import mongoose from 'mongoose';
 
 export const getUsers = tryCatch(async (req: Request, res: Response) => {
   const { skip, limit, sort } = req.query;
@@ -17,7 +18,7 @@ export const getUsers = tryCatch(async (req: Request, res: Response) => {
 
 
 export const GetUserById = tryCatch(async (req: Request, res: Response): Promise<void> => {
-  const _id: string = req.params.id;
+  const _id = new mongoose.Types.ObjectId(req.params.id)
   const user = await getUserById(_id);
   if (!_id) {
     res.status(400).json({ message: 'Invalid user ID', data: null });
@@ -39,7 +40,7 @@ export const CreateUser = tryCatch(async (req: Request, res: Response): Promise<
 })
 
 export const DeleteUserById = tryCatch(async (req: Request, res: Response): Promise<void> => {
-  const _id: string = req.params.id;
+  const _id = new mongoose.Types.ObjectId(req.params.id)
   const user = await deleteUserById(_id);
   if (user) {
     res.status(201).json({ message: 'User deleted successfully', data: user });
@@ -49,7 +50,7 @@ export const DeleteUserById = tryCatch(async (req: Request, res: Response): Prom
 })
 
 export const UpdateUserById = tryCatch(async (req: Request, res: Response): Promise<void> => {
-  const _id: string = req.params.id;
+  const _id = new mongoose.Types.ObjectId(req.params.id)
   const payload = req.body;
   console.log(payload);
   const user = await updateUserById(_id, payload);

@@ -1,4 +1,4 @@
-import { Document } from 'mongoose'
+import { Document, Schema } from 'mongoose'
 import { Url } from 'url'
 
 export type TRole = 'User' | 'Admin' | 'Employee'
@@ -8,8 +8,7 @@ export interface ISocial {
   url: Url
 }
 
-export interface IUser extends Document {
-  id: string
+export interface IUser {
   name: string
   image: Url
   email: string
@@ -23,5 +22,9 @@ export interface IUser extends Document {
   membership: TMembership
   project: string[]
   onboarding: boolean
+  createdAt: string;
+  updatedAt: string;
 }
+export interface IUserDoc extends IUser, Document {
 
+}
