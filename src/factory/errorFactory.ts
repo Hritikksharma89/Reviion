@@ -24,7 +24,7 @@ const ErrorFactory: ErrorFactory = (error, res) => {
     return ResponseFactory(res).notFound(error.message, err.dbValidation)
   if (error instanceof Error && error.name === 'CastError')
     return ResponseFactory(res).notFound(error.message, err.dbCast)
-  ResponseFactory(res).notFound(error.message, 'Error')
+  return ResponseFactory(res).notFound(error.message, 'Error')
 }
 
 export default ErrorFactory

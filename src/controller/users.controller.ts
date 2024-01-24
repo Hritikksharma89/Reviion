@@ -11,7 +11,11 @@ import { Request, Response } from 'express'
 
 import ResponseFactory from '@/factory/responseFactory'
 import ErrorWrapper from '@/middleware/errorWrapper'
+import { NewCreatedUser, UpdateUserBody } from '@/interface/users.interfaces'
 
+interface ICreateNewUser extends Request {
+  body: NewCreatedUser
+}
 /**
  * Creates a new user.
  *
@@ -24,8 +28,8 @@ import ErrorWrapper from '@/middleware/errorWrapper'
  *
  * Returns 201 with the created user on success.
  */
-export const createNewUser = ErrorWrapper(async (req: Request, res: Response) => {
-  if (await GetUserByEmail(req.body.email)) return ResponseFactory(res).conflict()
+export const createNewUser = ErrorWrapper(async (req: ICreateNewUser, res: Response) => {
+  if (await GetUserByEmail(req.body.email as string)) return ResponseFactory(res).conflict()
   return ResponseFactory(res).successCreated(await CreateUser(req.body))
 })
 
@@ -42,7 +46,7 @@ export const createNewUser = ErrorWrapper(async (req: Request, res: Response) =>
  * Returns 404 if user not found, otherwise returns the user.
  */
 export const getUserById = ErrorWrapper(async (req: Request, res: Response) => {
-  const user = await GetUserById(req?.params?.id)
+  const user = await GetUserById(req?.params?.id )
   if (!user) return ResponseFactory(res).notFound()
   return ResponseFactory(res).successCreated(user)
 })
@@ -58,7 +62,9 @@ export const getUserById = ErrorWrapper(async (req: Request, res: Response) => {
  */
 export const getUsers = ErrorWrapper(async (req: Request, res: Response) => {
   const users = await GetUsers(req.query.page as string, req.query.limit as string)
-  return ResponseFactory(res).success(users)
+  // if (!users) return ResponseFactory(res).notFound()
+  // return ResponseFactory(res).success(users)
+  res.send(users)
 })
 
 /**
@@ -78,6 +84,10 @@ export const deleteUser = ErrorWrapper(async (req: Request, res: Response) => {
   return ResponseFactory(res).successCreated(await DeleteUserById(req.params.id))
 })
 
+interface IUpdateUser extends Request {
+  body: UpdateUserBody
+}
+
 /**
  * Updates a user by ID.
  *
@@ -90,9 +100,9 @@ export const deleteUser = ErrorWrapper(async (req: Request, res: Response) => {
  *
  * Returns 200 with updated user data on success.
  */
-export const updateUser = ErrorWrapper(async (req: Request, res: Response) => {
+export const updateUser = ErrorWrapper(async (req: IUpdateUser, res: Response) => {
   const { email, ...updateData } = req.body
-  const existingUser = await GetUser({ email, id: req.params['id'] })
+  const existingUser = await GetUser({ email, id: req.params.id })
   if (!existingUser) return ResponseFactory(res).notFound()
-  return ResponseFactory(res).successCreated(await UpdateUserById(req.params['id'], updateData))
+  return ResponseFactory(res).success(await UpdateUserById(req.params.id, updateData))
 })
