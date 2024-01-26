@@ -1,4 +1,4 @@
-import { Document, Schema } from 'mongoose'
+import { Document} from 'mongoose'
 import { Url } from 'url'
 
 export type TRole = 'User' | 'Admin' | 'Employee'
@@ -11,7 +11,7 @@ export interface ISocial {
 export interface IUser {
   name: string
   image: Url
-  email: string
+  email: string 
   phone: number
   emailVerified: boolean
   bio: string
@@ -21,6 +21,8 @@ export interface IUser {
   role: TRole
   membership: TMembership
   project: string[]
+  team: string[]
+  task: string[]
   onboarding: boolean
   createdAt: string;
   updatedAt: string;
@@ -28,3 +30,5 @@ export interface IUser {
 export interface IUserDoc extends IUser, Document {
 
 }
+
+

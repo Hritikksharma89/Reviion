@@ -1,83 +1,97 @@
-# Node.js Application in TypeScript
+import { Url } from 'url'
 
-## Installation
+export type TRole = 'User' | 'Admin' | 'Employee'
+export type TMembership = 'Premium' | 'Free' | 'Enterprise'
+export interface ISocial {
+  name: string
+  url: Url
+}
 
-### Step 1: Install Dependencies
+<!-- export interface IUser {
+  id: string
+  name: string
+  image: Url
+  email: string
+  phone: number
+  emailVerified: boolean
+  bio: string
+  social: ISocial[]
+  dob: Date
+  language: string
+  role: TRole
+  membership: TMembership
+  project: string[]
+  onboarding: boolean
+} -->
+export interface IToken {
+  token: string
+  expires: Date
+}
+export interface ITokens {
+  refresh: IToken
+  access: IToken
+}
+export interface IAuth {
+  email: string
+  password: string
+  token: ITokens
+  role: TRole
+  membership: TMembership
+  userId: string
+}
+<!-- export interface ITeam {
+  id: string
+  name: string
+  image: Url
+  members: objectId[]   
+  projects: string[]
+} -->
+<!-- export interface ITask {
+  id: string
+  name: string
+  category: string[]
+  priority: TPriority
+  description: string
+  timeline: ITimeLine
+  status: TStatus
+  assignTo: string[]
+}
+export interface ITimeLine {
+  start: Date
+  end: Date
+}
+export type TPriority = 'High' | 'Low' | 'Medium' | 'Urgent'
+export type TStatus = 'Pending' | 'Not Started' | 'Completed' | 'Archive' | 'Started' -->
+<!-- export interface IProject {
+  id: string
+  name: string
+  category: string[]
+  priority: TPriority
+  description: string
+  timeline: ITimeLine
+  status: TStatus
+  taskList: string[]
+  paymentDetails: string[]
+  assignTeam: string[]
+  body: string
+  repository: Url
+} -->
+export interface INotification {
+  notifyMe: string
+  accountEmail: boolean
+  marketingEmail: boolean
+  communicationEmail: boolean
+}
+export interface ISetting {
+  display: string[]
+  theme: string
+  notification: INotification
+  language: string
+}
+export interface ISidebarState {
+  isCollapsed: boolean
+}
 
-```
-npm install
-```
 
-This command installs all the required packages and dependencies.
+interface - schema - models- services - controller - routes - 
 
-### Step 2: Run in Development Mode
-
-```
-npm run dev
-```
-
-Starts the application in development mode. It involves Nodemon to automatically restart the server upon code changes.
-
-### Step 3: Build the Application
-
-```
-npm run build
-```
-
-Compiles TypeScript code into JavaScript and prepares the application for deployment.
-
-### Step 4: Run the Built Application
-
-```
-npm run start
-```
-
-Starts the application from the compiled JavaScript files. Ensure you have run the build command before using this.
-
-## Additional Commands
-
-### Linting
-
-```
-npm run lint
-```
-
-Checks the code for common errors and enforces coding style.
-
-### Testing
-
-```
-npm test
-```
-
-Runs your test suite to ensure code integrity.
-
-## Configuration
-
-Make sure to check and update the configuration files as needed:
-
-- `tsconfig.json`: TypeScript configuration.
-- `package.json`: Update scripts, dependencies, and other project-related details.
-
-## Environment Variables
-
-Configure any necessary environment variables in a `.env` file.
-
-## Folder Structure
-
-Here's a brief overview of the project structure:
-
-```
-/src           # Source code
-/dist          # Compiled JavaScript code
-/test          # Test files
-/config        # Configuration files
-```
-
-## Contributing
-
-Feel free to contribute by submitting bug reports, feature requests, or pull requests.
-
-## License
-
-This project is licensed under the [LICENSE NAME] - see the [LICENSE.md](LICENSE.md) file for details.
