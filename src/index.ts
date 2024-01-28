@@ -4,6 +4,10 @@ import { DB } from './connect';
 import { environment } from './env';
 import docsRoute from './modules/docs/docs.route';
 import userRoute from './modules/users/user.route';
+import teamRoute from './modules/teams/team.route';
+import taskRoute from './modules/tasks/task.route';
+import settingRoute from './modules/settings/setting.route';
+import projectRoute from './modules/projects/project.route';
 
 const app: Application = express();
 const port = environment.PORT;
@@ -11,7 +15,10 @@ const port = environment.PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+app.use('/projects/', projectRoute);
+app.use('/settings/', settingRoute);
+app.use('/tasks/', taskRoute);
+app.use('/teams/', teamRoute);
 app.use('/users/', userRoute);
 app.use('/docs/', docsRoute);
 

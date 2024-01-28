@@ -14,8 +14,8 @@ export interface IProject {
     paymentDetails: string[]
     assignTeam: string[]
     body: string
-    repository: Url
+    repository: URL
   }
 
-  // url
+  
   
