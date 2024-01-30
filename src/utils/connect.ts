@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { environment } from './env';
+import { environment } from '../env';
 
 mongoose.Promise = global.Promise;
 

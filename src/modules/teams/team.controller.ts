@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import tryCatch from "../../trycatch";
+import tryCatch from "../../utils/trycatch";
 import { createTeam, deleteTeamById, getAllTeams, getTeamById, updateTeamById } from "./team.services";
 import mongoose from "mongoose";
 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import factory from "../../factory"
+import factory from "../../utils/factory"
 import { IProject } from "./project.interface"
 import { Projects } from "./project.model"
 

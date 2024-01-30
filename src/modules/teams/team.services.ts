@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import factory from "../../factory";
+import factory from "../../utils/factory";
 import { ITeam } from "./team.interface";
 import { Teams } from "./team.model";
 

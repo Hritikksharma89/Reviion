@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 
-import tryCatch from '../../trycatch';
+import tryCatch from '../../utils/trycatch';
 import { createUser, deleteUserById, getAllUsers, getUserById, updateUserById } from './user.services';
 import mongoose from 'mongoose';
 

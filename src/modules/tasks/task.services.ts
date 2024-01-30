@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import factory from "../../factory";
+import factory from "../../utils/factory";
 import { ITask } from "./task.interface";
 import { Tasks } from "./task.model";
 

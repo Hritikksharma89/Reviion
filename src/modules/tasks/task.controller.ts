@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { Request, Response } from "express";
-import tryCatch from "../../trycatch";
+import tryCatch from "../../utils/trycatch";
 import { createTask, deleteTaskById, getAllTask, getTaskById, updateTaskById } from "./task.services";
 
 

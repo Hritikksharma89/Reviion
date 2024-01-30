@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { Request, Response } from "express";
-import tryCatch from "../../trycatch";
+import tryCatch from "../../utils/trycatch";
 import { createSetting, deleteSettingById, getAllSetting, getSettingById, updateSettingById } from "./setting.services";
 
 
