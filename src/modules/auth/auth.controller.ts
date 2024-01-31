@@ -7,6 +7,7 @@ import tryCatch from '../../utils/trycatch';
 import { createUser, getUserByEmail, getUserById } from '../users/user.services';
 import {
   createAuth,
+  generateAuthTokens,
   getAllAuth,
   getAuthByEmail,
   getAuthByUserId,
@@ -44,10 +45,15 @@ export const login = tryCatch(async (req: Request, res: Response) => {
   if (isAuth.length == 0) return res.send({ message: 'Email is incorrect' });
   const isValidPass = CryptoFactory().comparePassword(password, isAuth[0].password);
   if (!isValidPass) return res.send({ message: 'Password is incorrect' });
-  if (!ID(req.params.id)) return res.send({ message: 'user ID incorrect' });
+  if (!ID(isAuth[0].userId)) return res.send({ message: 'user ID incorrect' });
   const id = new mongoose.Types.ObjectId(isAuth[0].userId);
   const user = await getUserById(id);
-  return res.send({ user, isAuth, isValidPass, id });
+  console.log(user)
+    if (!user) return res.send({ message: 'user not found' });
+  const token = generateAuthTokens(user._id , user.role )
+  console.log(token)
+  const updateAuth = await updateAuthById(isAuth[0]._id, {token} )
+  return res.send({ updateAuth, token });
 });
 
 export const resetAuthPass = tryCatch(async (req: Request, res: Response) => {

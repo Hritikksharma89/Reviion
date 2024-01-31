@@ -7,7 +7,7 @@ import { Users } from './user.model';
 const userModel = factory(Users);
 export const getAllUsers = (skip?: string, limit?: string, sort?: string): Promise<IUser[]> =>
   userModel.find(skip, limit, sort);
-export const getUserById = (_id: mongoose.Types.ObjectId): Promise<IUser> =>
+export const getUserById = (_id: mongoose.Types.ObjectId): Promise<IUserDoc> =>
   userModel.findById(_id);
 export const createUser = (payload: object): Promise<IUserDoc> => userModel.create(payload);
 export const deleteUserById = (_id: mongoose.Types.ObjectId): Promise<IUser> =>

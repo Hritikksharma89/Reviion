@@ -11,5 +11,8 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url('Invalid database URL'),
   PASS_SECRET: z.string(),
   BASE_URL: z.string().url('Invalid base URL'),
+  JWT_ACCESS_EXPIRATION_MINUTES: z.string(),
+  JWT_REFRESH_EXPIRATION_DAYS: z.string(),
+  JWT_SECRET: z.string(),
 });
 export const environment = envSchema.parse(process.env) as z.infer<typeof envSchema>;
