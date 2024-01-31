@@ -1,14 +1,19 @@
-import { Router } from "express";
-import { GetProjects, CreateProject, DeleteProjectById, GetProjectById, UpdateProjectById } from "./project.controller";
+import { Router } from 'express';
 
+import {
+  CreateProject,
+  DeleteProjectById,
+  GetProjectById,
+  GetProjects,
+  UpdateProjectById,
+} from './project.controller';
 
-const projectRoute = Router()
+const projectRoute = Router();
 
-projectRoute.get('/', GetProjects)
-projectRoute.post('/', CreateProject)
-projectRoute.get('/id', DeleteProjectById)
-projectRoute.get('/id', GetProjectById)
-projectRoute.get('/id', UpdateProjectById)
+projectRoute.get('/', GetProjects);
+projectRoute.post('/', CreateProject);
+projectRoute.get('/id', DeleteProjectById);
+projectRoute.get('/id', GetProjectById);
+projectRoute.get('/id', UpdateProjectById);
 
-
-export default projectRoute
+export default projectRoute;

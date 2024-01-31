@@ -1,3 +1,5 @@
+import { Document } from 'mongoose';
+
 // Define role and membership types (assuming you have them)
 type TRole = string;
 type TMembership = string;
@@ -23,3 +25,5 @@ export interface IAuth {
   membership: TMembership;
   userId: string;
 }
+
+export interface IAuthDoc extends IAuth, Document {}

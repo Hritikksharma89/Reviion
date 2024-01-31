@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
-
-
+import mongoose from 'mongoose';
 
 export const authSchema = new mongoose.Schema({
   email: { type: String, required: true },
@@ -9,7 +7,7 @@ export const authSchema = new mongoose.Schema({
     accessToken: { type: String },
     refreshToken: { type: String },
   },
-  role: { type: String, required: true  },
+  role: { type: String, required: true },
   membership: { type: String, required: true },
   userId: { type: String, required: true },
 });

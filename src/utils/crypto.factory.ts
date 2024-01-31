@@ -1,15 +1,14 @@
-import CryptoJS from 'crypto-js'
-import { environment } from '../env'
+import CryptoJS from 'crypto-js';
 
-
+import { environment } from '../env';
 
 interface CryptoFactoryInterface {
-    comparePassword: (password: string, dPassword: string) => boolean
-    decryptedPassword: (password: string) => string
-    encryptedPassword: (password: string) => string
+  comparePassword: (password: string, dPassword: string) => boolean;
+  decryptedPassword: (password: string) => string;
+  encryptedPassword: (password: string) => string;
 }
 
-const SECRET = environment.PASS_SECRET
+const SECRET = environment.PASS_SECRET;
 
 /**
  * Creates a CryptoJS factory instance to provide encryption,
@@ -17,23 +16,23 @@ const SECRET = environment.PASS_SECRET
  * and the configured secret key.
  */
 const CryptoFactory = (): CryptoFactoryInterface => ({
-    /**
-     * Compares a plaintext password against an encrypted password
-     * to check if they match.
-     */
-    comparePassword: (password, dPassword) =>
-        CryptoJS.AES.decrypt(dPassword, SECRET).toString(CryptoJS.enc.Utf8) === password,
+  /**
+   * Compares a plaintext password against an encrypted password
+   * to check if they match.
+   */
+  comparePassword: (password, dPassword) =>
+    CryptoJS.AES.decrypt(dPassword, SECRET).toString(CryptoJS.enc.Utf8) === password,
 
-    /**
-     * Decrypts an encrypted password using the configured secret key.
-     */
-    decryptedPassword: (password) =>
-        CryptoJS.AES.decrypt(password, SECRET).toString(CryptoJS.enc.Utf8),
+  /**
+   * Decrypts an encrypted password using the configured secret key.
+   */
+  decryptedPassword: (password) =>
+    CryptoJS.AES.decrypt(password, SECRET).toString(CryptoJS.enc.Utf8),
 
-    /**
-     * Encrypts a password using AES encryption and the configured secret key.
-     */
-    encryptedPassword: (password) => CryptoJS.AES.encrypt(password, SECRET).toString(),
-})
+  /**
+   * Encrypts a password using AES encryption and the configured secret key.
+   */
+  encryptedPassword: (password) => CryptoJS.AES.encrypt(password, SECRET).toString(),
+});
 
-export default CryptoFactory
+export default CryptoFactory;

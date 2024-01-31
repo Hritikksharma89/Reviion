@@ -1,14 +1,14 @@
-
 import { Router } from 'express';
 
 import {
-  CreateUser, DeleteUserById, GetUserById, UpdateUserById, GetUsers
+  CreateUser,
+  DeleteUserById,
+  GetUserById,
+  GetUsers,
+  UpdateUserById,
 } from './user.controller';
 
-
 const userRoute = Router();
-
-
 
 userRoute.get('/', GetUsers);
 userRoute.get('/:id', GetUserById);
