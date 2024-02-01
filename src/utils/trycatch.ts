@@ -6,6 +6,7 @@ const tryCatch = (fn: any) => async (req: Request, res: Response, next: NextFunc
     await fn(req, res);
     return next();
   } catch (error) {
+    console.error(error)
     if (error instanceof ZodError) {
       return res.json({ error, message: 'Validation Error' });
     }

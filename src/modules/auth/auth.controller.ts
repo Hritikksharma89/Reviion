@@ -48,12 +48,10 @@ export const login = tryCatch(async (req: Request, res: Response) => {
   if (!ID(isAuth[0].userId)) return res.send({ message: 'user ID incorrect' });
   const id = new mongoose.Types.ObjectId(isAuth[0].userId);
   const user = await getUserById(id);
-  console.log(user)
-    if (!user) return res.send({ message: 'user not found' });
-  const token = generateAuthTokens(user._id , user.role )
-  console.log(token)
-  const updateAuth = await updateAuthById(isAuth[0]._id, {token} )
-  return res.send({ updateAuth, token });
+  if (!user) return res.send({ message: 'user not found' });
+  const token = await generateAuthTokens(user._id, user.role)
+  const updateAuth = await updateAuthById(isAuth[0]._id, { token })
+  return res.send({message:"Login successful" ,data:updateAuth });
 });
 
 export const resetAuthPass = tryCatch(async (req: Request, res: Response) => {
