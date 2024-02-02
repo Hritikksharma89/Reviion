@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import { getAuthAll, login, register, resetAuthPass } from './auth.controller';
 import tokenValidate from '../../middleware/tokenValidate';
+import { getAuthAll, login, register, resetAuthPass } from './auth.controller';
 
 const authRout = Router();
 

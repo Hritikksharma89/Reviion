@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 import ID from '../../utils/checkIdLength';
 import CryptoFactory from '../../utils/crypto.factory';
+import reqValidate from '../../utils/reqValidate';
 import tryCatch from '../../utils/trycatch';
 import { createUser, getUserByEmail, getUserById } from '../users/user.services';
 import {
@@ -13,8 +14,11 @@ import {
   getAuthByUserId,
   updateAuthById,
 } from './auth.services';
+import AuthValidation from './auth.validation';
 
 export const register = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, AuthValidation.register);
+  if (!data.error) return res.json(data.error);
   const { email, password, name, phone } = req.body;
   const isUser = await getUserByEmail(email);
   if (isUser.length !== 0) return res.send({ message: 'Email already taken' });
@@ -40,6 +44,8 @@ export const register = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const login = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, AuthValidation.login);
+  if (!data.error) return res.json(data.error);
   const { email, password } = req.body;
   const isAuth = await getAuthByEmail(email);
   if (isAuth.length == 0) return res.send({ message: 'Email is incorrect' });
@@ -49,12 +55,14 @@ export const login = tryCatch(async (req: Request, res: Response) => {
   const id = new mongoose.Types.ObjectId(isAuth[0].userId);
   const user = await getUserById(id);
   if (!user) return res.send({ message: 'user not found' });
-  const token = await generateAuthTokens(user._id, user.role)
-  const updateAuth = await updateAuthById(isAuth[0]._id, { token })
-  return res.send({ message: "Login successful", data: updateAuth });
+  const token = await generateAuthTokens(user._id, user.role);
+  const updateAuth = await updateAuthById(isAuth[0]._id, { token });
+  return res.send({ message: 'Login successful', data: updateAuth });
 });
 
 export const resetAuthPass = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, AuthValidation.resetAuthPass);
+  if (!data.error) return res.json(data.error);
   const { password, newPassword } = req.body;
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const userId = new mongoose.Types.ObjectId(req.params.id);
@@ -69,6 +77,8 @@ export const resetAuthPass = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const getAuthAll = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, AuthValidation.getAuthAll);
+  if (!data.error) return res.json(data.error);
   const { skip, limit, sort } = req.query;
   const auth = await getAllAuth(skip as string, limit as string, sort as string);
   if (auth.length < 0) return res.status(200).json({ message: 'No auth found', data: auth });

@@ -1,27 +1,30 @@
-
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 // @ts-ignore
-import moment, { Moment } from 'moment'
-import { environment } from '../env'
-import mongoose from 'mongoose'
+import moment, { Moment } from 'moment';
+import mongoose from 'mongoose';
 
-
+import { environment } from '../env';
 
 interface TokenPayload {
-  exp: number
-  iat: number
-  role: string
-  userId: mongoose.Types.ObjectId
-  type: string
+  exp: number;
+  iat: number;
+  role: string;
+  userId: mongoose.Types.ObjectId;
+  type: string;
 }
 
-type Payload = (id: mongoose.Types.ObjectId, role: string, expires: Moment, type: string) => TokenPayload
+type Payload = (
+  id: mongoose.Types.ObjectId,
+  role: string,
+  expires: Moment,
+  type: string,
+) => TokenPayload;
 
 interface TokenFactory {
-  accessExpire: Moment
-  generate: (id: mongoose.Types.ObjectId, role: string, expires: Moment, type: string) => string
-  refreshExpire: Moment
-  verify: (token: string) => TokenPayload
+  accessExpire: Moment;
+  generate: (id: mongoose.Types.ObjectId, role: string, expires: Moment, type: string) => string;
+  refreshExpire: Moment;
+  verify: (token: string) => TokenPayload;
 }
 
 /**
@@ -36,18 +39,18 @@ const payload: Payload = (id, role, expires, type) => ({
   role,
   userId: id,
   type,
-})
+});
 
-const SECRET: string = environment.JWT_SECRET
-const ACCESS_EXPIRATION: string = environment.JWT_ACCESS_EXPIRATION_MINUTES
-const REFRESH_EXPIRATION: string = environment.JWT_REFRESH_EXPIRATION_DAYS
+const SECRET: string = environment.JWT_SECRET;
+const ACCESS_EXPIRATION: string = environment.JWT_ACCESS_EXPIRATION_MINUTES;
+const REFRESH_EXPIRATION: string = environment.JWT_REFRESH_EXPIRATION_DAYS;
 
 /**
  * TokenFactory returns an object implementing the TokenFactory interface.
  * It contains methods for generating and verifying JWT tokens
  * with different expiration times.
  */
- 
+
 const TokenFactory = (): TokenFactory => ({
   /**
    * The accessExpire sets the expiration for access tokens.
@@ -73,6 +76,6 @@ const TokenFactory = (): TokenFactory => ({
    * Throws an error if the token is invalid.
    */
   verify: (token) => jwt.verify(token, SECRET) as TokenPayload,
-})
+});
 
-export default TokenFactory
+export default TokenFactory;

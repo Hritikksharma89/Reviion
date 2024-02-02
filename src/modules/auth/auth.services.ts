@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 import factory from '../../utils/factory';
-import { IAuth, IAuthDoc } from './auth.interface';
-import { Auth } from './auth.model';
 import TokenFactory from '../../utils/token.factory';
 import { tokenTypes } from './auth.constant';
+import { IAuth, IAuthDoc } from './auth.interface';
+import { Auth } from './auth.model';
 
 const authModel = factory(Auth);
 export const getAllAuth = (skip?: string, limit?: string, sort?: string): Promise<IAuth[]> =>
@@ -20,8 +20,6 @@ export const getAuthByEmail = (email: string): Promise<IAuthDoc[]> => authModel.
 export const getAuthByUserId = (userId: mongoose.Types.ObjectId): Promise<IAuthDoc[]> =>
   authModel.findByUserId(userId);
 
-
-
 export const generateAuthTokens = async (id: mongoose.Types.ObjectId, role: string) => {
   return {
     access: {
@@ -30,23 +28,9 @@ export const generateAuthTokens = async (id: mongoose.Types.ObjectId, role: stri
     },
     refresh: {
       expires: TokenFactory().refreshExpire.toDate(),
-      token: TokenFactory().generate(
-        id,
-        role,
-        TokenFactory().refreshExpire,
-        tokenTypes.REFRESH,
-      ),
+      token: TokenFactory().generate(id, role, TokenFactory().refreshExpire, tokenTypes.REFRESH),
     },
-  }
-}
+  };
+};
 
-
-
-export const verifyToken = (token: string) => TokenFactory().verify(token.split(' ')[1])
-
-
-
-
-
-
-
+export const verifyToken = (token: string) => TokenFactory().verify(token.split(' ')[1]);

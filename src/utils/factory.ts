@@ -6,7 +6,7 @@ const factory = <T extends Document>(model: Model<T>) => {
     find: async (skip: string = '0', limit: string = '10', sort: string = 'desc') => {
       return await model.find().skip(Number(skip)).limit(Number(limit)).sort(sort).exec();
     },
-    update : async(payload: object) => {
+    update: async (payload: object) => {
       return await model.updateOne(payload);
     },
     findByEmail: async (email: string) => {
