@@ -10,7 +10,7 @@ const UserValidation = {
       emailVerified: z.boolean().optional(),
       membership: z.string().optional(),
       name: z.string().optional(),
-      password: z.string().min(8).optional(),
+      password: z.string().min(8),
       phone: z.number().optional(),
       role: z.string().optional(),
     }),
@@ -18,18 +18,18 @@ const UserValidation = {
     query: z.object({}),
   },
   deleteUser: {
-    body: {},
+    body: z.object({}),
     params: z.object({
-      id: z.string().optional(),
+      id: z.string().min(24).max(24),
     }),
-    query: {},
+    query: z.object({}),
   },
   getUserById: {
-    body: {},
+    body: z.object({}),
     params: z.object({
-      id: z.string().optional(),
+      id: z.string().min(24).max(24),
     }),
-    query: {},
+    query: z.object({}),
   },
   getUsers: {
     body: z.object({}),
@@ -50,9 +50,9 @@ const UserValidation = {
       role: z.string().optional(),
     }),
     params: z.object({
-      id: z.string().optional(),
+      id: z.string().min(24).max(24),
     }),
-    query: {},
+    query: z.object({}),
   },
 };
 

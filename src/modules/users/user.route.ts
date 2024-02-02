@@ -7,13 +7,14 @@ import {
   GetUsers,
   UpdateUserById,
 } from './user.controller';
+import tokenValidate from '../../middleware/tokenValidate';
 
 const userRoute = Router();
 
-userRoute.get('/', GetUsers);
-userRoute.get('/:id', GetUserById);
-userRoute.post('/', CreateUser);
-userRoute.delete('/:id', DeleteUserById);
-userRoute.put('/:id', UpdateUserById);
+userRoute.get('/',tokenValidate, GetUsers);
+userRoute.get('/:id',tokenValidate, GetUserById);
+userRoute.post('/',tokenValidate, CreateUser);
+userRoute.delete('/:id',tokenValidate, DeleteUserById);
+userRoute.put('/:id',tokenValidate, UpdateUserById);
 
 export default userRoute;

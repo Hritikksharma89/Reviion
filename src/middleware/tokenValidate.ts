@@ -1,8 +1,4 @@
 
-
-
-
-
 import { NextFunction, Request, Response } from "express";
 import tryCatch from "../utils/trycatch";
 import { getAuthByUserId, verifyToken } from "../modules/auth/auth.services";

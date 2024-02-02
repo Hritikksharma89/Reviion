@@ -51,7 +51,7 @@ export const login = tryCatch(async (req: Request, res: Response) => {
   if (!user) return res.send({ message: 'user not found' });
   const token = await generateAuthTokens(user._id, user.role)
   const updateAuth = await updateAuthById(isAuth[0]._id, { token })
-  return res.send({message:"Login successful" ,data:updateAuth });
+  return res.send({ message: "Login successful", data: updateAuth });
 });
 
 export const resetAuthPass = tryCatch(async (req: Request, res: Response) => {
