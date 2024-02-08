@@ -7,13 +7,14 @@ import {
   GetTasks,
   UpdateTaskById,
 } from './task.controller';
+import tokenValidate from '../../middleware/tokenValidate';
 
 const taskRoute = Router();
 
-taskRoute.get('/', GetTasks);
-taskRoute.post('/', CreateTask);
-taskRoute.get('/id', DeleteTaskById);
-taskRoute.get('/id', GetTaskById);
-taskRoute.get('/id', UpdateTaskById);
+taskRoute.get('/', tokenValidate, GetTasks);
+taskRoute.post('/', tokenValidate, CreateTask);
+taskRoute.delete('/:id', tokenValidate, DeleteTaskById);
+taskRoute.get('/:id', tokenValidate, GetTaskById);
+taskRoute.put('/:id', tokenValidate, UpdateTaskById);
 
 export default taskRoute;

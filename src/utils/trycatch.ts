@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { JsonWebTokenError } from 'jsonwebtoken';
 import { ZodError } from 'zod';
 
 class BSONError extends Error {
@@ -12,14 +13,17 @@ const tryCatch = (fn: any) => async (req: Request, res: Response, next: NextFunc
   try {
     await fn(req, res);
     return next();
-  } catch (error) {
-    console.error(error);
+  } catch (error:any) {    
     if (error instanceof ZodError) {
       return res.json({ error: error.errors, message: 'Validation Error' });
     }
     if (error instanceof BSONError) {
-      return res.json({ error });
+      return res.json({ message: "Database error", error:error.message });
     }
+    if (error instanceof JsonWebTokenError) {
+      return res.json({ message: "Your token is invalid try login again", error:error.message})
+    }
+
 
     return res.send({ message: 'Something went wrong', error });
   }

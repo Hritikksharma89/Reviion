@@ -7,13 +7,14 @@ import {
   GetSettings,
   UpdateSettingById,
 } from './setting.controller';
+import tokenValidate from '../../middleware/tokenValidate';
 
 const settingRoute = Router();
 
-settingRoute.get('/', GetSettings);
-settingRoute.post('/', CreateSetting);
-settingRoute.get('/id', DeleteSettingById);
-settingRoute.get('/id', GetSettingById);
-settingRoute.get('/id', UpdateSettingById);
+settingRoute.get('/', tokenValidate, GetSettings);
+settingRoute.post('/', tokenValidate, CreateSetting);
+settingRoute.delete('/:id', tokenValidate, DeleteSettingById);
+settingRoute.get('/:id', tokenValidate, GetSettingById);
+settingRoute.put('/:id', tokenValidate, UpdateSettingById);
 
 export default settingRoute;

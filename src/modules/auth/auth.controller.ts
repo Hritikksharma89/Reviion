@@ -18,7 +18,7 @@ import AuthValidation from './auth.validation';
 
 export const register = tryCatch(async (req: Request, res: Response) => {
   const data = await reqValidate(req, AuthValidation.register);
-  if (!data.error) return res.json(data.error);
+  if (!data.status) return res.json(data.message);
   const { email, password, name, phone } = req.body;
   const isUser = await getUserByEmail(email);
   if (isUser.length !== 0) return res.send({ message: 'Email already taken' });
@@ -45,7 +45,7 @@ export const register = tryCatch(async (req: Request, res: Response) => {
 
 export const login = tryCatch(async (req: Request, res: Response) => {
   const data = await reqValidate(req, AuthValidation.login);
-  if (!data.error) return res.json(data.error);
+  if (!data.status) return res.json(data.message);
   const { email, password } = req.body;
   const isAuth = await getAuthByEmail(email);
   if (isAuth.length == 0) return res.send({ message: 'Email is incorrect' });
@@ -62,7 +62,7 @@ export const login = tryCatch(async (req: Request, res: Response) => {
 
 export const resetAuthPass = tryCatch(async (req: Request, res: Response) => {
   const data = await reqValidate(req, AuthValidation.resetAuthPass);
-  if (!data.error) return res.json(data.error);
+  if (!data.status) return res.json(data.message);
   const { password, newPassword } = req.body;
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const userId = new mongoose.Types.ObjectId(req.params.id);
@@ -78,7 +78,7 @@ export const resetAuthPass = tryCatch(async (req: Request, res: Response) => {
 
 export const getAuthAll = tryCatch(async (req: Request, res: Response) => {
   const data = await reqValidate(req, AuthValidation.getAuthAll);
-  if (!data.error) return res.json(data.error);
+  if (!data.status) return res.json(data.message);
   const { skip, limit, sort } = req.query;
   const auth = await getAllAuth(skip as string, limit as string, sort as string);
   if (auth.length < 0) return res.status(200).json({ message: 'No auth found', data: auth });

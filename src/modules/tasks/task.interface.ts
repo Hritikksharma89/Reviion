@@ -16,4 +16,5 @@ export interface ITask {
   timeline: ITimeLine;
   status: TStatus;
   assignTo: string[];
+  assignTeam: string[];
 }

@@ -15,7 +15,7 @@ import UserValidation from './user.validation';
 
 export const GetUsers = tryCatch(async (req: Request, res: Response) => {
   const data = await reqValidate(req, UserValidation.getUsers);
-  if (!data.error) return res.json(data.error);
+  if (!data.status) return res.json(data.message);
   const { skip, limit, sort } = req.query;
   const users = await getAllUsers(skip as string, limit as string, sort as string);
   if (users.length < 0) {
@@ -27,7 +27,8 @@ export const GetUsers = tryCatch(async (req: Request, res: Response) => {
 
 export const GetUserById = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const data = await reqValidate(req, UserValidation.getUserById);
-  if (!data.error) return res.json(data.error);
+  console.log(data)
+  if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
   if (!_id) {
@@ -43,7 +44,7 @@ export const GetUserById = tryCatch(async (req: Request, res: Response): Promise
 
 export const CreateUser = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const data = await reqValidate(req, UserValidation.createNewUser);
-  if (!data.error) return res.json(data.error);
+  if (!data.status) return res.json(data.message);
   const user = await createUser(req.body);
   if (user) {
     return res.status(201).json({ message: 'New user created successfully', data: user });
@@ -54,7 +55,7 @@ export const CreateUser = tryCatch(async (req: Request, res: Response): Promise<
 
 export const DeleteUserById = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const data = await reqValidate(req, UserValidation.deleteUser);
-  if (!data.error) return res.json(data.error);
+  if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
   const user = await deleteUserById(_id);
@@ -67,7 +68,7 @@ export const DeleteUserById = tryCatch(async (req: Request, res: Response): Prom
 
 export const UpdateUserById = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const data = await reqValidate(req, UserValidation.updateUser);
-  if (!data.error) return res.json(data.error);
+  if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
   const payload = req.body;

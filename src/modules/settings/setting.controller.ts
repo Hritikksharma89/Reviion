@@ -9,8 +9,13 @@ import {
   getSettingById,
   updateSettingById,
 } from './setting.services';
+import SettingValidation from './setting.validation';
+import reqValidate from '../../utils/reqValidate';
+import ID from '../../utils/checkIdLength';
 
 export const GetSettings = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, SettingValidation.getSettings)
+  if (!data.status) return res.json(data.message);
   const { skip, limit, sort } = req.query;
   const settings = await getAllSetting(skip as string, limit as string, sort as string);
   if (settings.length < 0) {
@@ -21,6 +26,9 @@ export const GetSettings = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const GetSettingById = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, SettingValidation.getSettingById)
+  if (!data.status) return res.json(data.message);
+  if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
   if (!_id) {
     return res.status(400).json({ message: 'Invalid setting ID', data: null });
@@ -34,6 +42,8 @@ export const GetSettingById = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const CreateSetting = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, SettingValidation.createSetting)
+  if (!data.status) return res.json(data.message);
   const setting = await createSetting(req.body);
   if (setting) {
     return res.status(201).json({ message: 'Setting created successfully', data: setting });
@@ -43,6 +53,9 @@ export const CreateSetting = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const DeleteSettingById = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, SettingValidation.deleteSetting)
+  if (!data.status) return res.json(data.message);
+  if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
   if (!_id) {
     return res.status(400).json({ message: 'Invalid setting ID', data: null });
@@ -56,6 +69,9 @@ export const DeleteSettingById = tryCatch(async (req: Request, res: Response) =>
 });
 
 export const UpdateSettingById = tryCatch(async (req: Request, res: Response): Promise<any> => {
+  const data = await reqValidate(req, SettingValidation.updateSetting)
+  if (!data.status) return res.json(data.message);
+  if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
   const payload = req.body;
   console.log(payload);

@@ -9,8 +9,13 @@ import {
   getTaskById,
   updateTaskById,
 } from './task.services';
+import TaskValidation from './task.validation';
+import reqValidate from '../../utils/reqValidate';
+import ID from '../../utils/checkIdLength';
 
 export const GetTasks = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, TaskValidation.getTasks)
+  if (!data.status) return res.json(data.message);
   const { skip, limit, sort } = req.query;
   const tasks = await getAllTask(skip as string, limit as string, sort as string);
   if (tasks.length < 0) {
@@ -21,6 +26,9 @@ export const GetTasks = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const GetTaskById = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, TaskValidation.getTaskById)
+  if (!data.status) return res.json(data.message);
+  if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
   if (!_id) {
     return res.status(400).json({ message: 'Invalid task ID', data: null });
@@ -34,6 +42,8 @@ export const GetTaskById = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const CreateTask = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, TaskValidation.createTask)
+  if (!data.status) return res.json(data.message);
   const task = await createTask(req.body);
   if (task) {
     return res.status(201).json({ message: 'Task created successfully', data: task });
@@ -43,6 +53,9 @@ export const CreateTask = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const DeleteTaskById = tryCatch(async (req: Request, res: Response) => {
+  const data = await reqValidate(req, TaskValidation.deleteTask)
+  if (!data.status) return res.json(data.message);
+  if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
   if (!_id) {
     return res.status(400).json({ message: 'Invalid task ID', data: null });
@@ -56,6 +69,9 @@ export const DeleteTaskById = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const UpdateTaskById = tryCatch(async (req: Request, res: Response): Promise<any> => {
+  const data = await reqValidate(req, TaskValidation.updateTask)
+  if (!data.status) return res.json(data.message);
+  if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
   const payload = req.body;
   console.log(payload);

@@ -7,13 +7,14 @@ import {
   GetTeams,
   UpdateTeamById,
 } from './team.controller';
+import tokenValidate from '../../middleware/tokenValidate';
 
 const teamRoute = Router();
 
-teamRoute.get('/', GetTeams);
-teamRoute.post('/', CreateTeam);
-teamRoute.get('/id', DeleteTeamById);
-teamRoute.get('/id', GetTeamById);
-teamRoute.get('/id', UpdateTeamById);
+teamRoute.get('/',tokenValidate, GetTeams);
+teamRoute.get('/:id',tokenValidate, GetTeamById);
+teamRoute.post('/',tokenValidate, CreateTeam);
+teamRoute.delete('/:id',tokenValidate, DeleteTeamById);
+teamRoute.put('/:id',tokenValidate, UpdateTeamById);
 
 export default teamRoute;

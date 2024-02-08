@@ -14,5 +14,11 @@ const envSchema = z.object({
   JWT_ACCESS_EXPIRATION_MINUTES: z.string(),
   JWT_REFRESH_EXPIRATION_DAYS: z.string(),
   JWT_SECRET: z.string(),
+  SMTP_HOST: z.string(),
+  SMTP_PORT: z.string(),
+  SMTP_USERNAME: z.string(),
+  SMTP_PASSWORD: z.string(),
+  EMAIL_FROM: z.string(),
+
 });
 export const environment = envSchema.parse(process.env) as z.infer<typeof envSchema>;
