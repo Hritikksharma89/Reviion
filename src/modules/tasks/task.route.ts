@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import tokenValidate from '../../middleware/tokenValidate';
 import {
   CreateTask,
   DeleteTaskById,
@@ -7,7 +8,6 @@ import {
   GetTasks,
   UpdateTaskById,
 } from './task.controller';
-import tokenValidate from '../../middleware/tokenValidate';
 
 const taskRoute = Router();
 

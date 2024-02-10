@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 
+import ID from '../../utils/checkIdLength';
+import reqValidate from '../../utils/reqValidate';
 import tryCatch from '../../utils/trycatch';
 import {
   createProject,
@@ -9,12 +11,10 @@ import {
   getProjectById,
   updateProjectById,
 } from './project.services';
-import reqValidate from '../../utils/reqValidate';
 import ProjectValidation from './project.validation';
-import ID from '../../utils/checkIdLength';
 
 export const GetProjects = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, ProjectValidation.getProjects)
+  const data = await reqValidate(req, ProjectValidation.getProjects);
   if (!data.status) return res.json(data.message);
   const { skip, limit, sort } = req.query;
   const projects = await getAllProject(skip as string, limit as string, sort as string);
@@ -26,7 +26,7 @@ export const GetProjects = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const GetProjectById = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, ProjectValidation.getProjectById)
+  const data = await reqValidate(req, ProjectValidation.getProjectById);
   if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
@@ -42,7 +42,7 @@ export const GetProjectById = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const CreateProject = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, ProjectValidation.createProject)
+  const data = await reqValidate(req, ProjectValidation.createProject);
   if (!data.status) return res.json(data.message);
   const project = await createProject(req.body);
   if (project) {
@@ -53,7 +53,7 @@ export const CreateProject = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const DeleteProjectById = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, ProjectValidation.deleteProject)
+  const data = await reqValidate(req, ProjectValidation.deleteProject);
   if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
@@ -69,7 +69,7 @@ export const DeleteProjectById = tryCatch(async (req: Request, res: Response) =>
 });
 
 export const UpdateProjectById = tryCatch(async (req: Request, res: Response): Promise<any> => {
-  const data = await reqValidate(req, ProjectValidation.updateProject)
+  const data = await reqValidate(req, ProjectValidation.updateProject);
   if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
@@ -82,5 +82,3 @@ export const UpdateProjectById = tryCatch(async (req: Request, res: Response): P
     return res.status(204).json({ message: 'Failed to update project', data: project });
   }
 });
-
-

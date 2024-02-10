@@ -19,6 +19,5 @@ const envSchema = z.object({
   SMTP_USERNAME: z.string(),
   SMTP_PASSWORD: z.string(),
   EMAIL_FROM: z.string(),
-
 });
 export const environment = envSchema.parse(process.env) as z.infer<typeof envSchema>;

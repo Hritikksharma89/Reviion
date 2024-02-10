@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import tokenValidate from '../../middleware/tokenValidate';
 import {
   CreateSetting,
   DeleteSettingById,
@@ -7,7 +8,6 @@ import {
   GetSettings,
   UpdateSettingById,
 } from './setting.controller';
-import tokenValidate from '../../middleware/tokenValidate';
 
 const settingRoute = Router();
 

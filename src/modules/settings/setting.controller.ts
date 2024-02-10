@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 
+import ID from '../../utils/checkIdLength';
+import reqValidate from '../../utils/reqValidate';
 import tryCatch from '../../utils/trycatch';
 import {
   createSetting,
@@ -10,11 +12,9 @@ import {
   updateSettingById,
 } from './setting.services';
 import SettingValidation from './setting.validation';
-import reqValidate from '../../utils/reqValidate';
-import ID from '../../utils/checkIdLength';
 
 export const GetSettings = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, SettingValidation.getSettings)
+  const data = await reqValidate(req, SettingValidation.getSettings);
   if (!data.status) return res.json(data.message);
   const { skip, limit, sort } = req.query;
   const settings = await getAllSetting(skip as string, limit as string, sort as string);
@@ -26,7 +26,7 @@ export const GetSettings = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const GetSettingById = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, SettingValidation.getSettingById)
+  const data = await reqValidate(req, SettingValidation.getSettingById);
   if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
@@ -42,7 +42,7 @@ export const GetSettingById = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const CreateSetting = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, SettingValidation.createSetting)
+  const data = await reqValidate(req, SettingValidation.createSetting);
   if (!data.status) return res.json(data.message);
   const setting = await createSetting(req.body);
   if (setting) {
@@ -53,7 +53,7 @@ export const CreateSetting = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const DeleteSettingById = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, SettingValidation.deleteSetting)
+  const data = await reqValidate(req, SettingValidation.deleteSetting);
   if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
@@ -69,7 +69,7 @@ export const DeleteSettingById = tryCatch(async (req: Request, res: Response) =>
 });
 
 export const UpdateSettingById = tryCatch(async (req: Request, res: Response): Promise<any> => {
-  const data = await reqValidate(req, SettingValidation.updateSetting)
+  const data = await reqValidate(req, SettingValidation.updateSetting);
   if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);

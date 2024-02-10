@@ -24,6 +24,7 @@ export interface IAuth {
   role: TRole;
   membership: TMembership;
   userId: string;
+  emailVerified: boolean;
 }
 
 export interface IAuthDoc extends IAuth, Document {}

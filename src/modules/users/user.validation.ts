@@ -1,18 +1,33 @@
 import { z } from 'zod';
 
+const social = z.string();
+const project = z.string();
+const team = z.string();
+const task = z.string();
 /**
  * Defines User validation schemas.
  */
+
 const UserValidation = {
   createNewUser: {
     body: z.object({
+      name: z.string(),
       email: z.string(),
-      emailVerified: z.boolean().optional(),
-      membership: z.string().optional(),
-      name: z.string().optional(),
       password: z.string().min(8),
       phone: z.number().optional(),
+      emailVerified: z.boolean().optional(),
+      bio: z.string().optional(),
+      socials: z.array(social).optional(),
+      dob: z.date().optional(),
+      language: z.string().optional(),
+      membership: z.string().optional(),
       role: z.string().optional(),
+      projects: z.array(project).optional(),
+      teams: z.array(team).optional(),
+      tasks: z.array(task).optional(),
+      onboarding: z.boolean().optional(),
+      createdAt: z.date().optional(),
+      updatedAt: z.date().optional(),
     }),
     params: z.object({}),
     query: z.object({}),
@@ -41,13 +56,23 @@ const UserValidation = {
   },
   updateUser: {
     body: z.object({
+      name: z.string(),
       email: z.string(),
-      emailVerified: z.boolean().optional(),
-      membership: z.string().optional(),
-      name: z.string().optional(),
-      password: z.string().min(8).optional(),
+      password: z.string().min(8),
       phone: z.number().optional(),
+      emailVerified: z.boolean().optional(),
+      bio: z.string().optional(),
+      socials: z.array(social).optional(),
+      dob: z.date().optional(),
+      language: z.string().optional(),
+      membership: z.string().optional(),
       role: z.string().optional(),
+      projects: z.array(project).optional(),
+      teams: z.array(team).optional(),
+      tasks: z.array(task).optional(),
+      onboarding: z.boolean().optional(),
+      createdAt: z.date().optional(),
+      updatedAt: z.date().optional(),
     }),
     params: z.object({
       id: z.string().min(24).max(24),

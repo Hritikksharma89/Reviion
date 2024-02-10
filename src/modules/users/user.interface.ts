@@ -13,18 +13,19 @@ export interface IUser {
   image: Url;
   email: string;
   phone: number;
+  password: string;
   emailVerified: boolean;
   bio: string;
-  social: ISocial[];
+  socials: ISocial[];
   dob: Date;
   language: string;
   role: TRole;
   membership: TMembership;
-  project: string[];
-  team: string[];
-  task: string[];
+  projects: string[];
+  teams: string[];
+  tasks: string[];
   onboarding: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 export interface IUserDoc extends IUser, Document {}

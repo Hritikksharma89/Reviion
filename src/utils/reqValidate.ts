@@ -30,12 +30,15 @@ interface IZObject {
 //   }
 // };
 
-const reqValidate = async (req: Request, zObject: IZObject): Promise<{ status: boolean, message: string[] }> => {
+const reqValidate = async (
+  req: Request,
+  zObject: IZObject,
+): Promise<{ status: boolean; message: string[] }> => {
   try {
-    zObject.body?.parse(req.body)
-    zObject.query?.parse(req.query)
-    zObject.params?.parse(req.params)
-    return { status: true, message: ["Validation success"] };
+    zObject.body?.parse(req.body);
+    zObject.query?.parse(req.query);
+    zObject.params?.parse(req.params);
+    return { status: true, message: ['Validation success'] };
   } catch (error) {
     if (error instanceof ZodError) {
       return { status: false, message: error.errors.map((err) => err.message) };

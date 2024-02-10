@@ -27,7 +27,7 @@ export const GetUsers = tryCatch(async (req: Request, res: Response) => {
 
 export const GetUserById = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const data = await reqValidate(req, UserValidation.getUserById);
-  console.log(data)
+  console.log(data);
   if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);

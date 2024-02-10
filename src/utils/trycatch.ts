@@ -13,17 +13,16 @@ const tryCatch = (fn: any) => async (req: Request, res: Response, next: NextFunc
   try {
     await fn(req, res);
     return next();
-  } catch (error:any) {    
+  } catch (error: any) {
     if (error instanceof ZodError) {
       return res.json({ error: error.errors, message: 'Validation Error' });
     }
     if (error instanceof BSONError) {
-      return res.json({ message: "Database error", error:error.message });
+      return res.json({ message: 'Database error', error: error.message });
     }
     if (error instanceof JsonWebTokenError) {
-      return res.json({ message: "Your token is invalid try login again", error:error.message})
+      return res.json({ message: 'Your token is invalid try login again', error: error.message });
     }
-
 
     return res.send({ message: 'Something went wrong', error });
   }

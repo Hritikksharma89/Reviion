@@ -4,7 +4,7 @@ import { IProject } from './project.interface';
 
 export const projectSchema = new mongoose.Schema<IProject>({
   name: { type: String, required: true },
-  category: { type: [String], required: false },
+  categories: [{ type: String, required: false }],
   priority: { type: String, enum: ['High', 'Low', 'Medium', 'Urgent'], required: false },
   description: { type: String, required: false },
   timeline: {
@@ -14,7 +14,8 @@ export const projectSchema = new mongoose.Schema<IProject>({
   status: {
     type: String,
     enum: ['Pending', 'Not Started', 'Completed', 'Archive', 'Started'],
-    required: false, default: 'Not Started'
+    required: false,
+    default: 'Not Started',
   },
   taskList: { type: [String], required: false },
   paymentDetails: { type: [String], required: false },
@@ -22,6 +23,5 @@ export const projectSchema = new mongoose.Schema<IProject>({
   body: { type: String, required: false },
   repository: { type: String, required: false }, // Assuming "Url" is a string type
 });
-
 
 // enum and default in mongoDb

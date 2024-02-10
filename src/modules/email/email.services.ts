@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
-import { Message } from './email.interfaces';
+
 import { environment } from '../../env';
+import { Message } from './email.interfaces';
 
 export const transport = nodemailer.createTransport(environment.SMTP_HOST);
 
@@ -12,7 +13,12 @@ export const transport = nodemailer.createTransport(environment.SMTP_HOST);
  * @param {string} html
  * @returns {Promise<void>}
  */
-export const sendEmail = async (to: string, subject: string, text: string, html: string): Promise<void> => {
+export const sendEmail = async (
+  to: string,
+  subject: string,
+  text: string,
+  html: string,
+): Promise<void> => {
   const msg: Message = {
     from: environment.EMAIL_FROM,
     to,
@@ -51,7 +57,11 @@ export const sendResetPasswordEmail = async (to: string, token: string): Promise
  * @param {string} name
  * @returns {Promise<void>}
  */
-export const sendVerificationEmail = async (to: string, token: string, name: string): Promise<void> => {
+export const sendVerificationEmail = async (
+  to: string,
+  token: string,
+  name: string,
+): Promise<void> => {
   const subject = 'Email Verification';
   // replace this url with the link to the email verification page of your front-end app
   const verificationEmailUrl = `http://${environment.BASE_URL}/verify-email?token=${token}`;
@@ -71,7 +81,11 @@ export const sendVerificationEmail = async (to: string, token: string, name: str
  * @param {string} name
  * @returns {Promise<void>}
  */
-export const sendSuccessfulRegistration = async (to: string, token: string, name: string): Promise<void> => {
+export const sendSuccessfulRegistration = async (
+  to: string,
+  token: string,
+  name: string,
+): Promise<void> => {
   const subject = 'Email Verification';
   // replace this url with the link to the email verification page of your front-end app
   const verificationEmailUrl = `http://${environment.BASE_URL}/verify-email?token=${token}`;

@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 
+import ID from '../../utils/checkIdLength';
+import reqValidate from '../../utils/reqValidate';
 import tryCatch from '../../utils/trycatch';
 import {
   createTask,
@@ -10,11 +12,9 @@ import {
   updateTaskById,
 } from './task.services';
 import TaskValidation from './task.validation';
-import reqValidate from '../../utils/reqValidate';
-import ID from '../../utils/checkIdLength';
 
 export const GetTasks = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, TaskValidation.getTasks)
+  const data = await reqValidate(req, TaskValidation.getTasks);
   if (!data.status) return res.json(data.message);
   const { skip, limit, sort } = req.query;
   const tasks = await getAllTask(skip as string, limit as string, sort as string);
@@ -26,7 +26,7 @@ export const GetTasks = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const GetTaskById = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, TaskValidation.getTaskById)
+  const data = await reqValidate(req, TaskValidation.getTaskById);
   if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
@@ -42,7 +42,7 @@ export const GetTaskById = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const CreateTask = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, TaskValidation.createTask)
+  const data = await reqValidate(req, TaskValidation.createTask);
   if (!data.status) return res.json(data.message);
   const task = await createTask(req.body);
   if (task) {
@@ -53,7 +53,7 @@ export const CreateTask = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const DeleteTaskById = tryCatch(async (req: Request, res: Response) => {
-  const data = await reqValidate(req, TaskValidation.deleteTask)
+  const data = await reqValidate(req, TaskValidation.deleteTask);
   if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
@@ -69,7 +69,7 @@ export const DeleteTaskById = tryCatch(async (req: Request, res: Response) => {
 });
 
 export const UpdateTaskById = tryCatch(async (req: Request, res: Response): Promise<any> => {
-  const data = await reqValidate(req, TaskValidation.updateTask)
+  const data = await reqValidate(req, TaskValidation.updateTask);
   if (!data.status) return res.json(data.message);
   if (!ID(req.params.id)) return res.send({ message: 'user ID not found' });
   const _id = new mongoose.Types.ObjectId(req.params.id);
