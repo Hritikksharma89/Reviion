@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema<IUser>({
   image: { type: String, required: false },
   email: { type: String, required: true },
   phone: { type: Number, required: true },
-  password: { type: String, required: true },
   emailVerified: { type: Boolean, default: false },
   bio: { type: String },
   socials: [socialSchema], // Array of social objects

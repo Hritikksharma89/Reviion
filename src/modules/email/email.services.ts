@@ -1,9 +1,17 @@
-import nodemailer from 'nodemailer';
+import * as  nodemailer from 'nodemailer';
 
 import { environment } from '../../env';
 import { Message } from './email.interfaces';
 
-export const transport = nodemailer.createTransport(environment.SMTP_HOST);
+
+
+export const transport = nodemailer.createTransport({
+  host: "smtp.ethereal.email",
+  auth: { user: environment.SMTP_USERNAME, pass: environment.SMTP_PASSWORD },
+  secure: false,
+  port: 587
+
+});
 
 /**
  * Send an email

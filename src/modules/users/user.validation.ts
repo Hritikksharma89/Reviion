@@ -12,8 +12,7 @@ const UserValidation = {
   createNewUser: {
     body: z.object({
       name: z.string(),
-      email: z.string(),
-      password: z.string().min(8),
+      email: z.string(),      
       phone: z.number().optional(),
       emailVerified: z.boolean().optional(),
       bio: z.string().optional(),
@@ -57,8 +56,7 @@ const UserValidation = {
   updateUser: {
     body: z.object({
       name: z.string(),
-      email: z.string(),
-      password: z.string().min(8),
+      email: z.string(),      
       phone: z.number().optional(),
       emailVerified: z.boolean().optional(),
       bio: z.string().optional(),

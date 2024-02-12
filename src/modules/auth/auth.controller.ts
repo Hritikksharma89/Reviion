@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 
 import ID from '../../utils/checkIdLength';
 import CryptoFactory from '../../utils/crypto.factory';
@@ -15,6 +15,7 @@ import {
   updateAuthById,
 } from './auth.services';
 import AuthValidation from './auth.validation';
+import { sendSuccessfulRegistration } from '../email/email.services';
 
 export const register = tryCatch(async (req: Request, res: Response) => {
   const data = await reqValidate(req, AuthValidation.register);
@@ -40,7 +41,9 @@ export const register = tryCatch(async (req: Request, res: Response) => {
     role: createNewUser.role,
   };
   const createNewAuth = await createAuth(authPayload);
-  return res.send({ createNewUser, createNewAuth });
+  const token = await generateAuthTokens(authPayload.userId, createNewAuth.role);
+  const emailSend = await sendSuccessfulRegistration(email, token.access.token, userPayload.name)
+  return res.send({ createNewUser, createNewAuth, emailSend });
 });
 
 export const login = tryCatch(async (req: Request, res: Response) => {
